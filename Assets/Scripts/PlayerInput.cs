@@ -38,7 +38,6 @@ public class PlayerInput : MonoBehaviour
 
                     else if (hit.collider.CompareTag("Card") && Higher.state == GameState.PLAYERTURN)
                     {
-                        print("card selected by player");
                         Card(hit.collider.gameObject); // BRO THIS IS HOW YOU GET THE OBJECT U CLICKED
                     }
                 }

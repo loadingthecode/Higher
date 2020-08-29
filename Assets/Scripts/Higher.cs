@@ -284,6 +284,8 @@ public class Higher : MonoBehaviour
             cMiddleCard.GetComponent<Selectable>().faceUp = true;
             cMiddleCard.transform.position = new Vector3(-2, 0, 0);
 
+            yield return new WaitForSeconds(1f); // a delay before move check allows the player to understand what just happened
+
             // after both the player and computer draw a card
             // move on to the MOVECHECKER state to see who goes first
             state = GameState.MOVECHECKER;
@@ -346,13 +348,53 @@ public class Higher : MonoBehaviour
             if (selected.GetComponent<Selectable>().type == "S")
             {
                 print("Player has burned the computer's last pick with a Sun card");
-                Math.Max(ComputerScoreKeeper.scoreValue -= cMiddleCard.GetComponent<Selectable>().value, 0);
-                cPrevMiddleCard = cMiddleCard; // save this in case someone uses a Pluto card to revive a Sun-burnt card
-                Destroy(cMiddleCard);
-                ReplaceMiddle(selected);
-                state = GameState.COMPUTERTURN;
-                yield return new WaitForSeconds(1f);
-                computerInput.chooseCard();
+
+                // saving in case the computer plays a pluto card right after this turn
+                GameObject prevHolder = Instantiate(cardPrefab, new Vector3(-2, 0, 0), Quaternion.identity);
+                prevHolder.GetComponent<Selectable>().value = cMiddleCard.GetComponent<Selectable>().value;
+                prevHolder.GetComponent<Selectable>().faceUp = true;
+                prevHolder.GetComponent<Selectable>().inMiddle = true;
+                prevSpriteRenderer = prevHolder.GetComponent<SpriteRenderer>();
+                cPrevMiddleCard = prevHolder;
+                cPrevMiddleCard.GetComponent<UpdateSprite>().cardFace = pMiddleCard.GetComponent<UpdateSprite>().cardFace;
+                prevSpriteRenderer.enabled = false; // make it invisible for now
+
+                // if you use a Sun on a wormhole card, reverse the reversal
+                if (cMiddleCard.GetComponent<Selectable>().type == "W")
+                {
+                    int temp = ComputerScoreKeeper.scoreValue; // for the swap
+                    ComputerScoreKeeper.scoreValue = PlayerScoreKeeper.scoreValue;
+                    PlayerScoreKeeper.scoreValue = temp;
+
+                    Destroy(cMiddleCard);
+                    Destroy(selected);
+                    //ReplaceMiddle(selected);
+                    state = GameState.COMPUTERTURN;
+                    yield return new WaitForSeconds(1f);
+                    computerInput.chooseCard();
+                } 
+                // else if you use a Sun on a Sun card, subtract the other guy's previous middle card (not the sun)
+                else if (cMiddleCard.GetComponent<Selectable>().type == "S")
+                {
+                    Math.Max(ComputerScoreKeeper.scoreValue -= cPrevMiddleCard.GetComponent<Selectable>().value, 0);
+                    Destroy(cMiddleCard);
+                    Destroy(selected);
+                    //ReplaceMiddle(selected);
+                    state = GameState.COMPUTERTURN;
+                    yield return new WaitForSeconds(1f);
+                    computerInput.chooseCard();
+                }
+                else
+                {
+                    Math.Max(ComputerScoreKeeper.scoreValue -= cMiddleCard.GetComponent<Selectable>().value, 0);
+                    cPrevMiddleCard = cMiddleCard; // save this in case someone uses a Pluto card to revive a Sun-burnt card
+                    Destroy(cMiddleCard);
+                    Destroy(selected);
+                    //ReplaceMiddle(selected);
+                    state = GameState.COMPUTERTURN;
+                    yield return new WaitForSeconds(1f);
+                    computerInput.chooseCard();
+                }               
             }
             // if the player selects "Wormhole" card
             // flip the player and computer's score
@@ -455,8 +497,22 @@ public class Higher : MonoBehaviour
                 state = GameState.PLAYERTURN;
                 yield return new WaitForSeconds(1f);
             }
+            else if (selected.GetComponent<Selectable>().value == 1 && selected.GetComponent<Selectable>().type == "P" && pMiddleCard.name == "S1")
+            {
+                // revive the burnt card
+                // destroy pluto card
+                // regain the lost points
+                prevSpriteRenderer.enabled = true; // make it visible now
+                Destroy(selected);
+                ComputerScoreKeeper.scoreValue += cPrevMiddleCard.GetComponent<Selectable>().value;
+                cMiddleCard = cPrevMiddleCard; // just to give pMiddleCard a pointer for replaceMiddle
+                //ReplaceMiddle(pPrevMiddleCard);
+                state = GameState.PLAYERTURN;
+                yield return new WaitForSeconds(1f); // wait for player to catch up on what's happening
+            }
             else
-            {    
+            {
+                cPrevMiddleCard = cMiddleCard;
                 if ((ComputerScoreKeeper.scoreValue + selectedCardScore) > PlayerScoreKeeper.scoreValue)
                 {
                     print("Computer has played a card that allows his score to surpass the player's.");
@@ -481,8 +537,6 @@ public class Higher : MonoBehaviour
                     RedrawCard();
                 }
             }
-            
-            
         }
     }
     
@@ -491,7 +545,7 @@ public class Higher : MonoBehaviour
         if (state == GameState.PLAYERTURN)
         {
             newMiddle.transform.position = new Vector3(2, 0, 0); // selected card goes to middle card position.
-            Destroy(pMiddleCard); // original middle card is removed from the game
+            //Destroy(pMiddleCard); // original middle card is removed from the game
             pMiddleCard = newMiddle; // middle card is now the newly-selected card
         }
         else if (state == GameState.COMPUTERTURN)
@@ -499,7 +553,7 @@ public class Higher : MonoBehaviour
             
 
             newMiddle.transform.position = new Vector3(-2, 0, 0); // selected card goes to middle card position
-            Destroy(cMiddleCard); // original middle card is removed from the game
+            //Destroy(cMiddleCard); // original middle card is removed from the game
             cMiddleCard = newMiddle; // middle card is now the newly-selected card
         }
     }
