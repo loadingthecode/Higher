@@ -201,7 +201,7 @@ public class Higher : MonoBehaviour
             GameObject cNewCard;
 
             pNewCard = Instantiate(cardPrefab, new Vector3(-5.79f + pXOffset, -3.46f, transform.position.z + pZOffset), Quaternion.identity);
-            cNewCard = Instantiate(cardPrefab, new Vector3(5.57f + cXOffset, 3.5f, transform.position.z + cZOffset), new Quaternion(0, 0, 180, 0));
+            cNewCard = Instantiate(cardPrefab, new Vector3(5.57f + cXOffset, 3.5f, transform.position.z + cZOffset), new Quaternion(180, 0, 0, 0));
              
             pNewCard.name = pField[i];
             cNewCard.name = cField[i];
@@ -228,7 +228,7 @@ public class Higher : MonoBehaviour
             // the rest stay in the player's deck
             // note: +1f for z transform because deck needs to be in front of all the card prefabs
             pNewCard = Instantiate(cardPrefab, new Vector3(pDeckButton.transform.position.x, pDeckButton.transform.position.y, pDeckButton.transform.position.z + 1f), Quaternion.identity);
-            cNewCard = Instantiate(cardPrefab, new Vector3(cDeckButton.transform.position.x, cDeckButton.transform.position.y, cDeckButton.transform.position.z + 1f), new Quaternion(0, 0, 180, 0));
+            cNewCard = Instantiate(cardPrefab, new Vector3(cDeckButton.transform.position.x, cDeckButton.transform.position.y, cDeckButton.transform.position.z + 1f), new Quaternion(180, 0, 0, 0));
 
             pNewCard.name = pDeck[i];
             cNewCard.name = cDeck[i];
@@ -550,8 +550,6 @@ public class Higher : MonoBehaviour
         }
         else if (state == GameState.COMPUTERTURN)
         {
-            
-
             newMiddle.transform.position = new Vector3(-2, 0, 0); // selected card goes to middle card position
             //Destroy(cMiddleCard); // original middle card is removed from the game
             cMiddleCard = newMiddle; // middle card is now the newly-selected card
