@@ -24,12 +24,13 @@ public class PlayerInput : MonoBehaviour
     {
             if (Input.GetMouseButtonDown(0))
             {
-                Vector3 mousePosiiton = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -10));
+                //Vector3 mousePosition = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -10));
                 RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
 
                 // wait for shuffle to finish, then enter DRAWCARD state
                 if (hit)
                 {
+                    //print("X coordinate of click is " + )
                     if (hit.collider.CompareTag("Deck") && Higher.state == GameState.DRAWCARD)
                     {
                         Deck();
@@ -37,6 +38,7 @@ public class PlayerInput : MonoBehaviour
 
                     else if (hit.collider.CompareTag("Card") && Higher.state == GameState.PLAYERTURN)
                     {
+                        print("card selected by player");
                         Card(hit.collider.gameObject); // BRO THIS IS HOW YOU GET THE OBJECT U CLICKED
                     }
                 }

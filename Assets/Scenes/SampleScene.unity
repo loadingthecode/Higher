@@ -1985,7 +1985,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2.72, y: 3.6}
+  m_Size: {x: 7.119434, y: 9.642223}
   m_EdgeRadius: 0
 --- !u!50 &1675809416
 Rigidbody2D:
@@ -2666,25 +2666,25 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1490429002, guid: 9c35fc6e2094d2e46b2b8a5cea115e3a, type: 3}
-      propertyPath: m_SpriteTilingProperty.oldSize.x
-      value: 5
+      propertyPath: m_Size.x
+      value: 7.1194344
       objectReference: {fileID: 0}
     - target: {fileID: 1490429002, guid: 9c35fc6e2094d2e46b2b8a5cea115e3a, type: 3}
-      propertyPath: m_SpriteTilingProperty.oldSize.y
-      value: 7.26
+      propertyPath: m_AutoTiling
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1490429002, guid: 9c35fc6e2094d2e46b2b8a5cea115e3a, type: 3}
-      propertyPath: m_SpriteTilingProperty.newSize.x
-      value: 5
+      propertyPath: m_Size.y
+      value: 9.642223
       objectReference: {fileID: 0}
     - target: {fileID: 1490429002, guid: 9c35fc6e2094d2e46b2b8a5cea115e3a, type: 3}
-      propertyPath: m_SpriteTilingProperty.newSize.y
-      value: 7.26
+      propertyPath: m_Offset.y
+      value: 0.044786453
       objectReference: {fileID: 0}
-    - target: {fileID: 6334249114316297672, guid: 9c35fc6e2094d2e46b2b8a5cea115e3a, type: 3}
-      propertyPath: cardBack
-      value: 
-      objectReference: {fileID: 21300000, guid: 9cac096edae462a46b9af7739dfcd229, type: 3}
+    - target: {fileID: 1490429002, guid: 9c35fc6e2094d2e46b2b8a5cea115e3a, type: 3}
+      propertyPath: m_Offset.x
+      value: 0.05971718
+      objectReference: {fileID: 0}
     - target: {fileID: 6334249114316297673, guid: 9c35fc6e2094d2e46b2b8a5cea115e3a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -14.5
@@ -2729,37 +2729,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6334249114316297673, guid: 9c35fc6e2094d2e46b2b8a5cea115e3a, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.25
-      objectReference: {fileID: 0}
-    - target: {fileID: 6334249114316297673, guid: 9c35fc6e2094d2e46b2b8a5cea115e3a, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.25
-      objectReference: {fileID: 0}
-    - target: {fileID: 6334249114316297674, guid: 9c35fc6e2094d2e46b2b8a5cea115e3a, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 9cac096edae462a46b9af7739dfcd229, type: 3}
-    - target: {fileID: 6334249114316297674, guid: 9c35fc6e2094d2e46b2b8a5cea115e3a, type: 3}
-      propertyPath: m_Size.x
-      value: 8.25
-      objectReference: {fileID: 0}
-    - target: {fileID: 6334249114316297674, guid: 9c35fc6e2094d2e46b2b8a5cea115e3a, type: 3}
-      propertyPath: m_Size.y
-      value: 11.25
-      objectReference: {fileID: 0}
-    - target: {fileID: 6334249114316297674, guid: 9c35fc6e2094d2e46b2b8a5cea115e3a, type: 3}
-      propertyPath: m_WasSpriteAssigned
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6334249114316297675, guid: 9c35fc6e2094d2e46b2b8a5cea115e3a, type: 3}
       propertyPath: m_Name
       value: Card
-      objectReference: {fileID: 0}
-    - target: {fileID: 7694333100557103618, guid: 9c35fc6e2094d2e46b2b8a5cea115e3a, type: 3}
-      propertyPath: faceUp
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9c35fc6e2094d2e46b2b8a5cea115e3a, type: 3}
