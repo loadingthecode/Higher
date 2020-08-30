@@ -1,30 +1,43 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 public class CardFlipper : MonoBehaviour
 {
-    UpdateSprite updateSprite;
-    // Start is called before the first frame update
-    void Start()
+    public int timer;
+
+    public void StartFlip(GameObject card)
     {
-        updateSprite = GetComponent<UpdateSprite>();
+        StartCoroutine(CalculateFlip(card));
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Flip(GameObject card)
     {
-        
+        if (card.GetComponent<Selectable>().faceUp == true)
+        {
+            card.GetComponent<Selectable>().faceUp = false;
+        }
+        else
+        {
+            card.GetComponent<Selectable>().faceUp = true;
+        }
     }
 
-    public void FlipCard()
+    IEnumerator CalculateFlip(GameObject card)
     {
-        StopCoroutine(Flip());
-        StartCoroutine(Flip());
+        for (int i = 0; i < 180; i ++)
+        {
+            yield return new WaitForSeconds(0.002f);
+            card.transform.Rotate(new Vector3(0f, 1f, 0f));
+            timer++;
+
+            if (timer == 90)
+            {
+                Flip(card);
+            }
+        }
+        timer = 0;
     }
 
-    IEnumerator Flip()
-    {
-        yield return new WaitForSeconds(2f);
-    }
 }

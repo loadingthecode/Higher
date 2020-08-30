@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JetBrains.Annotations;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
@@ -20,6 +21,7 @@ public class Higher : MonoBehaviour
     public GameObject cardPrefab;
     public UpdateSprite updateSprite;
     public SpriteRenderer prevSpriteRenderer;
+    public CardFlipper cardFlipper;
 
     public static string[] types = new string[] { "P", "S", "W" };
     public static string[] values = new string[] { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
@@ -39,13 +41,6 @@ public class Higher : MonoBehaviour
     public List<GameObject> pFieldCards; // no more than 10
     public List<GameObject> cFieldCards; // no more than 10
 
-    // cards that were just picked
-    //public GameObject pMiddleCard;
-    //public GameObject cMiddleCard;
-
-    //public GameObject pPrevMiddleCard;
-    //public GameObject cPrevMiddleCard;
-
     public GameObject pSelectedCard;
     public GameObject cSelectedCard;
 
@@ -55,6 +50,7 @@ public class Higher : MonoBehaviour
         state = GameState.START;
         prevSpriteRenderer = GetComponent<SpriteRenderer>();
         computerInput = GetComponent<ComputerInput>();
+        cardFlipper = GetComponent<CardFlipper>();
         StartCoroutine(PlayCards());
     }
 
@@ -351,7 +347,10 @@ public class Higher : MonoBehaviour
             if (selected.GetComponent<Selectable>().type == "S")
             {
                 print("Player has burned the computer's last pick with a Sun card");
-                cMiddleCards[cMiddleCards.Count - 1].GetComponent<Selectable>().faceUp = false;
+                //cMiddleCards[cMiddleCards.Count - 1].GetComponent<Selectable>().faceUp = false;
+                print("Card being burned is " + cMiddleCards[cMiddleCards.Count - 1]);
+                cardFlipper.StartFlip(cMiddleCards[cMiddleCards.Count - 1]);
+                yield return new WaitForSeconds(0.5f); // let it finish flipping
                 Math.Max(ComputerScoreKeeper.scoreValue -= cMiddleCards[cMiddleCards.Count - 1].GetComponent<Selectable>().value, 0);
                 Destroy(selected); // special cards are used up, not stored in middle
                 state = GameState.COMPUTERTURN;
@@ -404,7 +403,8 @@ public class Higher : MonoBehaviour
                 // revive the burnt card
                 // destroy pluto card
                 // regain the lost points
-                pMiddleCards[pMiddleCards.Count - 1].GetComponent<Selectable>().faceUp = true;
+                cardFlipper.StartFlip(pMiddleCards[pMiddleCards.Count - 1]);
+                yield return new WaitForSeconds(0.5f);
                 PlayerScoreKeeper.scoreValue += pMiddleCards[pMiddleCards.Count - 1].GetComponent<Selectable>().value;
                 Destroy(selected);
                 state = GameState.COMPUTERTURN;
@@ -448,7 +448,8 @@ public class Higher : MonoBehaviour
             if (selected.GetComponent<Selectable>().type == "S")
             {
                 print("Computer has played a Sun card.");
-                pMiddleCards[pMiddleCards.Count - 1].GetComponent<Selectable>().faceUp = false;
+                cardFlipper.StartFlip(pMiddleCards[pMiddleCards.Count - 1]);
+                yield return new WaitForSeconds(0.5f);
                 Math.Max(PlayerScoreKeeper.scoreValue -= pMiddleCards[pMiddleCards.Count - 1].GetComponent<Selectable>().value, 0);
                 Destroy(selected); // special cards are used up, not stored in middle
                 print("Computer has burned the Player's last pick with a Sun card");
@@ -460,6 +461,23 @@ public class Higher : MonoBehaviour
             else if (selected.GetComponent<Selectable>().type == "W")
             {
                 print("Computer has switched their score with the player's using a Wormhole card.");
+
+                for (int i = 0; i < pMiddleCards.Count; i++)
+                {
+                    pMiddleCards[i].transform.position = new Vector3(-1 * (i + 2), 0, -1 * i); // selected card goes to middle card position.
+                    pMiddleCards[i].transform.rotation = new Quaternion(0, 0, 180, 0);
+                }
+
+                for (int i = 0; i < cMiddleCards.Count; i++)
+                {
+                    cMiddleCards[i].transform.position = new Vector3(i + 2, 0, -1 * i); // selected card goes to middle card position.
+                    cMiddleCards[i].transform.rotation = new Quaternion(0, 0, 0, 0);
+                }
+
+                // switch the list pointers
+                List<GameObject> tempList = pMiddleCards;
+                pMiddleCards = cMiddleCards;
+                cMiddleCards = tempList;
 
                 // switches their scores
                 int temp = ComputerScoreKeeper.scoreValue;
@@ -475,7 +493,8 @@ public class Higher : MonoBehaviour
                 // revive the burnt card
                 // destroy pluto card
                 // regain the lost points
-                cMiddleCards[cMiddleCards.Count - 1].GetComponent<Selectable>().faceUp = true;
+                cardFlipper.StartFlip(cMiddleCards[cMiddleCards.Count - 1]);
+                yield return new WaitForSeconds(0.5f);
                 PlayerScoreKeeper.scoreValue += cMiddleCards[cMiddleCards.Count - 1].GetComponent<Selectable>().value;
                 Destroy(selected);
                 state = GameState.PLAYERTURN;
