@@ -25,7 +25,7 @@ public class ComputerInput : MonoBehaviour
         selectedCard = higher.cFieldCards[indexOfSelectedCard];
         higher.cFieldCards.RemoveAt(indexOfSelectedCard);// to ensure we don't accidentally point to null
         print("Computer chooses " + selectedCard);
-        StartCoroutine(higher.SelectCard(selectedCard));
+        higher.Select(selectedCard);
     }
 
 

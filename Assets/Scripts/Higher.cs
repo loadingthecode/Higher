@@ -83,7 +83,7 @@ public class Higher : MonoBehaviour
 
         populateField();
 
-        StartCoroutine(Deal());
+        Deal();
 
         yield return new WaitForSeconds(2f);
 
@@ -191,7 +191,7 @@ public class Higher : MonoBehaviour
         }
     }
 
-    IEnumerator Deal()
+    IEnumerator DealCards()
     {
         float pXOffset = 0;
         float pZOffset = 0.03f;
@@ -340,6 +340,26 @@ public class Higher : MonoBehaviour
         }
     }
 
+    public void Deal()
+    {
+        StopCoroutine(DealCards());
+        StartCoroutine(DealCards());
+    }
+
+    public void Draw()
+    {
+        StopCoroutine(DrawCard());
+        StartCoroutine(DrawCard());
+    }
+
+    public void Select(GameObject selected)
+    {
+        StopCoroutine(SelectCard(selected));
+        StartCoroutine(SelectCard(selected));
+    }
+
+
+
     // should encapsuale some of this in a "comparePoints" method later on dude
     public IEnumerator SelectCard(GameObject selected)
     {
@@ -358,23 +378,7 @@ public class Higher : MonoBehaviour
             {
                 print("Player has burned the computer's "+ cMiddleCards[cMiddleCards.Count - 1] + " card");
 
-                cardFlipper.StartFlip(cMiddleCards[cMiddleCards.Count - 1]);
-                yield return new WaitForSeconds(0.5f); // let it finish flipping
-                Math.Max(ComputerScoreKeeper.scoreValue -= cMiddleCards[cMiddleCards.Count - 1].GetComponent<Selectable>().value, 0);
-                removePFieldCard(selected);
-                Destroy(selected); // special cards are used up, not stored in middle
-
-                // if the player plays a special card as their last card, they lose
-                if (pMiddleCards.Count == 0)
-                {
-                    print("Player has committed a foul. Game over.");
-                    state = GameState.LOST;
-                    matchEnd();
-                }
-
-                state = GameState.COMPUTERTURN;
-                yield return new WaitForSeconds(1f);
-                computerInput.chooseCard();
+                UseSunCard(selected);
             }
             //// if the player selects "Wormhole" card
             //// flip the player and computer's score
@@ -415,15 +419,18 @@ public class Higher : MonoBehaviour
                 Destroy(selected);
 
                 // if the player plays a special card as their last card, they lose
-                if (pMiddleCards.Count == 0)
+                if (pFieldCards.Count == 0)
                 {
                     print("Player has committed a foul. Game over.");
                     state = GameState.LOST;
                     matchEnd();
                 }
-
-                state = GameState.COMPUTERTURN;
-                computerInput.chooseCard();
+                else
+                {
+                    state = GameState.COMPUTERTURN;
+                    yield return new WaitForSeconds(1f);
+                    computerInput.chooseCard();
+                }
             }
             else if (selected.GetComponent<Selectable>().value == 1 && selected.GetComponent<Selectable>().type == "P" 
                 && pMiddleCards[pMiddleCards.Count - 1].GetComponent<Selectable>().faceUp == false)
@@ -487,15 +494,17 @@ public class Higher : MonoBehaviour
                 Destroy(selected); // special cards are used up, not stored in middle
 
                 // if the computer plays a special card as their last card, they lose
-                if (cMiddleCards.Count == 0)
+                if (cFieldCards.Count == 0)
                 {
                     print("Computer has committed a foul. Game won.");
                     state = GameState.WON;
                     matchEnd();
                 }
-
-                state = GameState.PLAYERTURN;
-                yield return new WaitForSeconds(1f);
+                else
+                {
+                    state = GameState.PLAYERTURN;
+                    yield return new WaitForSeconds(1f);
+                }
             }
             // if the computer selects "Wormhole" card
             // flip the computer and player's score
@@ -528,14 +537,17 @@ public class Higher : MonoBehaviour
                 Destroy(selected);
 
                 // if the computer plays a special card as their last card, they lose
-                if (cMiddleCards.Count == 0)
+                if (cFieldCards.Count == 0)
                 {
                     print("Computer has committed a foul. Game won.");
                     state = GameState.WON;
                     matchEnd();
                 }
-
-                state = GameState.PLAYERTURN;
+                else
+                {
+                    state = GameState.PLAYERTURN;
+                    yield return new WaitForSeconds(1f);
+                }
             }
             else if (selected.GetComponent<Selectable>().value == 1 && selected.GetComponent<Selectable>().type == "P"
                 && cMiddleCards[cMiddleCards.Count - 1].GetComponent<Selectable>().faceUp == false)
@@ -582,11 +594,64 @@ public class Higher : MonoBehaviour
         }
     }
 
+    public void UseSunCard(GameObject sunCard)
+    {
+        StopCoroutine(SunCard(sunCard));
+        StartCoroutine(SunCard(sunCard));
+    }
+
+    // method to cast a Sun card on the opponent
+    public IEnumerator SunCard(GameObject sunCard)
+    {
+       
+        if (state == GameState.MOVECHECKER)
+        {
+            cardFlipper.StartFlip(cMiddleCards[cMiddleCards.Count - 1]);
+            yield return new WaitForSeconds(0.5f);
+            Math.Max(ComputerScoreKeeper.scoreValue -= cMiddleCards[cMiddleCards.Count - 1].GetComponent<Selectable>().value, 0);
+            Destroy(sunCard); // special cards are used up, not stored in middle
+
+            // if the computer plays a special card as their last card, they lose
+            if (pFieldCards.Count == 0)
+            {
+                print("Player has committed a foul. Game lost.");
+                state = GameState.LOST;
+                matchEnd();
+            }
+            else
+            {
+                state = GameState.COMPUTERTURN;
+                yield return new WaitForSeconds(1f);
+                computerInput.chooseCard();
+            }
+        } 
+        else if (state == GameState.COMPUTERTURN)
+        {
+            cardFlipper.StartFlip(pMiddleCards[pMiddleCards.Count - 1]);
+            yield return new WaitForSeconds(0.5f);
+            Math.Max(PlayerScoreKeeper.scoreValue -= pMiddleCards[pMiddleCards.Count - 1].GetComponent<Selectable>().value, 0);
+            Destroy(sunCard); // special cards are used up, not stored in middle
+
+            // if the computer plays a special card as their last card, they lose
+            if (cFieldCards.Count == 0)
+            {
+                print("Computer has committed a foul. Game won.");
+                state = GameState.WON;
+                matchEnd();
+            }
+            else
+            {
+                state = GameState.PLAYERTURN;
+                yield return new WaitForSeconds(1f);
+            }
+        }
+    }
+
     // method to remove cards from the player's hand as they are played
     public void removePFieldCard(GameObject card)
     {
-        print("Size of player's field cards is now " + pFieldCards.Count);
         pFieldCards.Remove(card);
+        print("Size of player's field cards is now " + pFieldCards.Count);
     }
 
     // method controlling scene switch based on match end conditions

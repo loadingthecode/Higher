@@ -51,7 +51,7 @@ public class PlayerInput : MonoBehaviour
         // if deck is clicked, flip the first card in player deck array over
         // bring it to the middle, then add its point value to player's score total
         print("Hit Deck");
-        StartCoroutine(higher.DrawCard());
+        higher.Draw();
     }
 
     void Card(GameObject selected)
@@ -65,7 +65,7 @@ public class PlayerInput : MonoBehaviour
         {
             print("Select card method entered.");
             selectedCard = selected;
-            StartCoroutine(higher.SelectCard(selectedCard));
+            higher.Select(selectedCard);
         }
     }
 }
