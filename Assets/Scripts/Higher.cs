@@ -41,9 +41,6 @@ public class Higher : MonoBehaviour
     public List<GameObject> pFieldCards; // no more than 10
     public List<GameObject> cFieldCards; // no more than 10
 
-    public GameObject pSelectedCard;
-    public GameObject cSelectedCard;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -51,7 +48,7 @@ public class Higher : MonoBehaviour
         prevSpriteRenderer = GetComponent<SpriteRenderer>();
         computerInput = GetComponent<ComputerInput>();
         cardFlipper = GetComponent<CardFlipper>();
-        StartCoroutine(PlayCards());
+        Play();
     }
 
     // Update is called once per frame
@@ -60,8 +57,20 @@ public class Higher : MonoBehaviour
         
     }
 
+    public void Play()
+    {
+        StopCoroutine(PlayCards());
+        StartCoroutine(PlayCards());
+    }
+
     IEnumerator PlayCards()
     {
+
+        pDeck.Clear();
+        cDeck.Clear();
+        pField.Clear();
+        cField.Clear();
+
         print("Shuffling deck.");
 
         pDeck = GenerateDeck();
