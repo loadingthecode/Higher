@@ -208,8 +208,8 @@ public class Higher : MonoBehaviour
             GameObject pNewCard;
             GameObject cNewCard;
 
-            pNewCard = Instantiate(cardPrefab, new Vector3(-5.79f + pXOffset, -3.46f, transform.position.z + pZOffset), Quaternion.identity);
-            cNewCard = Instantiate(cardPrefab, new Vector3(5.57f + cXOffset, 3.5f, transform.position.z + cZOffset), new Quaternion(0, 0, 180, 0));
+            pNewCard = Instantiate(cardPrefab, new Vector3(-5.79f + pXOffset, -4f, transform.position.z + pZOffset), Quaternion.identity);
+            cNewCard = Instantiate(cardPrefab, new Vector3(5.57f + cXOffset, 4f, transform.position.z + cZOffset), new Quaternion(0, 0, 180, 0));
              
             pNewCard.name = pField[i];
             cNewCard.name = cField[i];
