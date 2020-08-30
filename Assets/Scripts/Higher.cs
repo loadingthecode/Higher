@@ -339,11 +339,11 @@ public class Higher : MonoBehaviour
     {
         // selected card has its value added to the players pool if it would make the total at least equal or greater to the enemy pool
         // and replaces whatever card is currently in the middle
-
+        
         int selectedCardScore = selected.GetComponent<Selectable>().value;
         if (state == GameState.PLAYERTURN)
         {
- 
+            state = GameState.MOVECHECKER;
             selected.GetComponent<Selectable>().inMiddle = true; // to make sure the player can't click on the middle card to gain value
             // if the player selects "The Sun" card
             // turn facedown the last card the computer played
@@ -360,19 +360,44 @@ public class Higher : MonoBehaviour
             }
             //// if the player selects "Wormhole" card
             //// flip the player and computer's score
-            //else if (selected.GetComponent<Selectable>().type == "W")
-            //{
-            //    print("Player has switched their score with the computer's using a Wormhole card.");
+            else if (selected.GetComponent<Selectable>().type == "W")
+            {
+                print("player has switched their score with the computer's using a wormhole card.");
 
-            //    // switches their scores
-            //    int temp = PlayerScoreKeeper.scoreValue;
-            //    PlayerScoreKeeper.scoreValue = ComputerScoreKeeper.scoreValue;
-            //    ComputerScoreKeeper.scoreValue = temp;
-            //    AddMiddle(selected);   
-            //    state = GameState.COMPUTERTURN;
-            //    yield return new WaitForSeconds(1f);
-            //    computerInput.chooseCard();
-            //}
+                // a temp arraylist that holds one of the player's middle cards list
+                // transfer one player's arraylist contents into the temp arraylist
+                // switch the transforms of both the computer and the player's cards
+                // transfer the other player's arraylist contents into the first player's arraylist
+                // transfer the temp arraylist content int othe other player's arraylist
+
+                // switch the card positions
+                for (int i = 0; i < pMiddleCards.Count; i++)
+                {
+                    pMiddleCards[i].transform.position = new Vector3(i - 2, 0, -1 * (pMiddleCards.Count)); // selected card goes to middle card position.
+                    pMiddleCards[i].transform.rotation = new Quaternion(0, 0, 180, 0);
+                }
+
+                for (int i = 0; i < cMiddleCards.Count; i++)
+                {
+                    cMiddleCards[i].transform.position = new Vector3(i + 2, 0, -1 * (cMiddleCards.Count)); // selected card goes to middle card position.
+                    cMiddleCards[i].transform.rotation = new Quaternion(0, 0, 0, 0);
+                }
+
+                // switch the list pointers
+                List<GameObject> tempList = pMiddleCards;
+                pMiddleCards = cMiddleCards;
+                cMiddleCards = tempList;
+
+                // switches their scores
+                int temp = PlayerScoreKeeper.scoreValue;
+                PlayerScoreKeeper.scoreValue = ComputerScoreKeeper.scoreValue;
+                ComputerScoreKeeper.scoreValue = temp;
+
+                yield return new WaitForSeconds(1f);
+                Destroy(selected);
+                state = GameState.COMPUTERTURN;
+                computerInput.chooseCard();
+            }
             else if (selected.GetComponent<Selectable>().value == 1 && selected.GetComponent<Selectable>().type == "P" 
                 && pMiddleCards[pMiddleCards.Count - 1].GetComponent<Selectable>().faceUp == false)
             {
@@ -416,8 +441,6 @@ public class Higher : MonoBehaviour
         }
         else if (state == GameState.COMPUTERTURN)
         {
-            
-
             selected.GetComponent<Selectable>().faceUp = true; // make sure to flip the card up
             // if the Computer selects "The Sun" card
             // destroy the last card the player played
@@ -434,18 +457,30 @@ public class Higher : MonoBehaviour
             }
             // if the computer selects "Wormhole" card
             // flip the computer and player's score
-            //else if (selected.GetComponent<Selectable>().type == "W")
-            //{
-            //    print("Computer has switched their score with the player's using a Wormhole card.");
+            else if (selected.GetComponent<Selectable>().type == "W")
+            {
+                print("Computer has switched their score with the player's using a Wormhole card.");
 
-            //    // switches their scores
-            //    int temp = ComputerScoreKeeper.scoreValue;
-            //    ComputerScoreKeeper.scoreValue = PlayerScoreKeeper.scoreValue;
-            //    PlayerScoreKeeper.scoreValue = temp;
-            //    AddMiddle(selected);
-            //    state = GameState.PLAYERTURN;
-            //    yield return new WaitForSeconds(1f);
-            //}
+                // switches their scores
+                int temp = ComputerScoreKeeper.scoreValue;
+                ComputerScoreKeeper.scoreValue = PlayerScoreKeeper.scoreValue;
+                PlayerScoreKeeper.scoreValue = temp;
+                yield return new WaitForSeconds(1f);
+                Destroy(selected);
+                state = GameState.PLAYERTURN;
+            }
+            else if (selected.GetComponent<Selectable>().value == 1 && selected.GetComponent<Selectable>().type == "P"
+                && cMiddleCards[cMiddleCards.Count - 1].GetComponent<Selectable>().faceUp == false)
+            {
+                // revive the burnt card
+                // destroy pluto card
+                // regain the lost points
+                cMiddleCards[cMiddleCards.Count - 1].GetComponent<Selectable>().faceUp = true;
+                PlayerScoreKeeper.scoreValue += cMiddleCards[cMiddleCards.Count - 1].GetComponent<Selectable>().value;
+                Destroy(selected);
+                state = GameState.PLAYERTURN;
+                yield return new WaitForSeconds(1f); // wait for player to catch up on what's happening
+            }
             else
             {    
                 if ((ComputerScoreKeeper.scoreValue + selectedCardScore) > PlayerScoreKeeper.scoreValue)
@@ -482,7 +517,7 @@ public class Higher : MonoBehaviour
         int playerMiddleListSize = pMiddleCards.Count;
         int computerMiddleListSize = cMiddleCards.Count;
 
-        if (state == GameState.PLAYERTURN)
+        if (state == GameState.MOVECHECKER)
         {
             additionalMiddle.transform.position = new Vector3(playerMiddleListSize + 2, 0, -1 * (playerMiddleListSize)); // selected card goes to middle card position.
             pMiddleCards.Add(additionalMiddle);
@@ -497,9 +532,11 @@ public class Higher : MonoBehaviour
 
     public void RedrawCard()
     {
-        PlayerScoreKeeper.scoreValue = 0; // reset scores in a draw
+        // reset scores in a draw
+        PlayerScoreKeeper.scoreValue = 0; 
         ComputerScoreKeeper.scoreValue = 0;
 
+        // getting rid of all the middle cards
         for (int i = 0; i < pMiddleCards.Count; i++)
         {
             Destroy(pMiddleCards[i]);
@@ -510,12 +547,12 @@ public class Higher : MonoBehaviour
             Destroy(cMiddleCards[i]);
         }
 
+        // clearing up any references in the arraylist
         pMiddleCards.Clear();
         cMiddleCards.Clear();
 
         print("Player middle cards list now has " + pMiddleCards.Count + " cards.");
         print("Computer middle cards list now has " + cMiddleCards.Count + " cards.");
-
 
         state = GameState.DRAWCARD; // go back to draw state
     }
