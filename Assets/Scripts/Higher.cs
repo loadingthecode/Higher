@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
+using Packages.Rider.Editor.UnitTesting;
 
 public enum GameState
 {
@@ -23,6 +24,7 @@ public class Higher : MonoBehaviour
     public UpdateSprite updateSprite;
     public SpriteRenderer prevSpriteRenderer;
     public CardFlipper cardFlipper;
+    public UIButtons uiButtons;
 
     public static string[] types = new string[] { "P", "S", "W" };
     public static string[] values = new string[] { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
@@ -49,6 +51,7 @@ public class Higher : MonoBehaviour
         prevSpriteRenderer = GetComponent<SpriteRenderer>();
         computerInput = GetComponent<ComputerInput>();
         cardFlipper = GetComponent<CardFlipper>();
+        uiButtons = GetComponent<UIButtons>();
         Play();
     }
 
@@ -377,7 +380,6 @@ public class Higher : MonoBehaviour
             if (selected.GetComponent<Selectable>().type == "S")
             {
                 print("Player has burned the computer's "+ cMiddleCards[cMiddleCards.Count - 1] + " card");
-
                 UseSunCard(selected);
             }
             //// if the player selects "Wormhole" card
@@ -488,23 +490,7 @@ public class Higher : MonoBehaviour
             if (selected.GetComponent<Selectable>().type == "S")
             {
                 print("Computer has played a Sun card.");
-                cardFlipper.StartFlip(pMiddleCards[pMiddleCards.Count - 1]);
-                yield return new WaitForSeconds(0.5f);
-                Math.Max(PlayerScoreKeeper.scoreValue -= pMiddleCards[pMiddleCards.Count - 1].GetComponent<Selectable>().value, 0);
-                Destroy(selected); // special cards are used up, not stored in middle
-
-                // if the computer plays a special card as their last card, they lose
-                if (cFieldCards.Count == 0)
-                {
-                    print("Computer has committed a foul. Game won.");
-                    state = GameState.WON;
-                    matchEnd();
-                }
-                else
-                {
-                    state = GameState.PLAYERTURN;
-                    yield return new WaitForSeconds(1f);
-                }
+                UseSunCard(selected);
             }
             // if the computer selects "Wormhole" card
             // flip the computer and player's score
