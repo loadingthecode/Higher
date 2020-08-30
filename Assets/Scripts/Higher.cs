@@ -373,13 +373,13 @@ public class Higher : MonoBehaviour
                 // switch the card positions
                 for (int i = 0; i < pMiddleCards.Count; i++)
                 {
-                    pMiddleCards[i].transform.position = new Vector3(i - 2, 0, -1 * (pMiddleCards.Count)); // selected card goes to middle card position.
+                    pMiddleCards[i].transform.position = new Vector3(-1 * (i + 2), 0, -1 * i); // selected card goes to middle card position.
                     pMiddleCards[i].transform.rotation = new Quaternion(0, 0, 180, 0);
                 }
 
                 for (int i = 0; i < cMiddleCards.Count; i++)
                 {
-                    cMiddleCards[i].transform.position = new Vector3(i + 2, 0, -1 * (cMiddleCards.Count)); // selected card goes to middle card position.
+                    cMiddleCards[i].transform.position = new Vector3(i + 2, 0, -1 * i); // selected card goes to middle card position.
                     cMiddleCards[i].transform.rotation = new Quaternion(0, 0, 0, 0);
                 }
 
