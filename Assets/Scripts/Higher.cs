@@ -30,6 +30,9 @@ public class Higher : MonoBehaviour
     public List<string> pField;
     public List<string> cField;
 
+    public List<GameObject> pMiddleCards;
+    public List<GameObject> cMiddleCards;
+
     public List<GameObject> pPhysicalDeck;
     public List<GameObject> cPhysicalDeck;
 
@@ -37,11 +40,11 @@ public class Higher : MonoBehaviour
     public List<GameObject> cFieldCards; // no more than 10
 
     // cards that were just picked
-    public GameObject pMiddleCard;
-    public GameObject cMiddleCard;
+    //public GameObject pMiddleCard;
+    //public GameObject cMiddleCard;
 
-    public GameObject pPrevMiddleCard;
-    public GameObject cPrevMiddleCard;
+    //public GameObject pPrevMiddleCard;
+    //public GameObject cPrevMiddleCard;
 
     public GameObject pSelectedCard;
     public GameObject cSelectedCard;
@@ -262,33 +265,33 @@ public class Higher : MonoBehaviour
             // then removes it from the deck
             // gets value of card and adds it to total player score
             // and of course flips the card up to its face
-            // and moves the card to the middle
+            // and moves the card to the middle arraylist
 
-
-            pMiddleCard = pPhysicalDeck[0]; // in case we need to destroy it in the case of a draw
-            pMiddleCard.GetComponent<Selectable>().inMiddle = true; // to make sure the player can't click on the middle card to gain value
-            pPhysicalDeck.RemoveAt(0);
-            int pDrawnCardValue = pMiddleCard.GetComponent<Selectable>().value;
-            PlayerScoreKeeper.scoreValue += pDrawnCardValue;
-            print(pMiddleCard.name + " was drawn by the player.");
-            pMiddleCard.GetComponent<Selectable>().faceUp = true;
-            pMiddleCard.transform.position = new Vector3(2, 0, 0); // right next to the player's score counter
-
-            yield return new WaitForSeconds(1f); // a delay between both draws to allow the player to understand what just happened
-
-            cMiddleCard = cPhysicalDeck[0];
-            cPhysicalDeck.RemoveAt(0);
-            int cDrawnCardValue = cMiddleCard.GetComponent<Selectable>().value;
-            ComputerScoreKeeper.scoreValue += cDrawnCardValue;
-            print(cMiddleCard.name + " was drawn by the computer.");
-            cMiddleCard.GetComponent<Selectable>().faceUp = true;
-            cMiddleCard.transform.position = new Vector3(-2, 0, 0);
-
-            yield return new WaitForSeconds(1f); // a delay between both draws to allow the player to understand what just happened
-
-            // after both the player and computer draw a card
-            // move on to the MOVECHECKER state to see who goes first
+            // after  the player draw a card
+            // move on to the MOVECHECKER state to lock out any more card draws
             state = GameState.MOVECHECKER;
+
+            pMiddleCards.Add(pPhysicalDeck[0]); // in case we need to destroy it in the case of a draw
+            pMiddleCards[0].GetComponent<Selectable>().inMiddle = true; // to make sure the player can't click on the middle card to gain value
+            pPhysicalDeck.RemoveAt(0);
+            int pDrawnCardValue = pMiddleCards[0].GetComponent<Selectable>().value;
+            PlayerScoreKeeper.scoreValue += pDrawnCardValue;
+            print(pMiddleCards[0].name + " was drawn by the player.");
+            pMiddleCards[0].GetComponent<Selectable>().faceUp = true;
+            pMiddleCards[0].transform.position = new Vector3(2, 0, 0); // right next to the player's score counter
+
+            yield return new WaitForSeconds(1f); // a delay between both draws to allow the player to understand what just happened
+
+            cMiddleCards.Add(cPhysicalDeck[0]);
+            cPhysicalDeck.RemoveAt(0);
+            int cDrawnCardValue = cMiddleCards[0].GetComponent<Selectable>().value;
+            ComputerScoreKeeper.scoreValue += cDrawnCardValue;
+            print(cMiddleCards[0].name + " was drawn by the computer.");
+            cMiddleCards[0].GetComponent<Selectable>().faceUp = true;
+            cMiddleCards[0].transform.position = new Vector3(-2, 0, 0);
+
+            yield return new WaitForSeconds(1f); // a delay between both draws to allow the player to understand what just happened
+            
             whoGoesFirst();
         }
     }
@@ -343,44 +346,42 @@ public class Higher : MonoBehaviour
  
             selected.GetComponent<Selectable>().inMiddle = true; // to make sure the player can't click on the middle card to gain value
             // if the player selects "The Sun" card
-            // destroy the last card the computer played
+            // turn facedown the last card the computer played
             // which removes the points that the card gave to the computer
             if (selected.GetComponent<Selectable>().type == "S")
             {
                 print("Player has burned the computer's last pick with a Sun card");
-                Math.Max(ComputerScoreKeeper.scoreValue -= cMiddleCard.GetComponent<Selectable>().value, 0);
-                cPrevMiddleCard = cMiddleCard; // save this in case someone uses a Pluto card to revive a Sun-burnt card
-                Destroy(cMiddleCard);
-                ReplaceMiddle(selected);
+                cMiddleCards[cMiddleCards.Count - 1].GetComponent<Selectable>().faceUp = false;
+                Math.Max(ComputerScoreKeeper.scoreValue -= cMiddleCards[cMiddleCards.Count - 1].GetComponent<Selectable>().value, 0);
+                Destroy(selected); // special cards are used up, not stored in middle
                 state = GameState.COMPUTERTURN;
                 yield return new WaitForSeconds(1f);
                 computerInput.chooseCard();
             }
-            // if the player selects "Wormhole" card
-            // flip the player and computer's score
-            else if (selected.GetComponent<Selectable>().type == "W")
-            {
-                print("Player has switched their score with the computer's using a Wormhole card.");
+            //// if the player selects "Wormhole" card
+            //// flip the player and computer's score
+            //else if (selected.GetComponent<Selectable>().type == "W")
+            //{
+            //    print("Player has switched their score with the computer's using a Wormhole card.");
 
-                // switches their scores
-                int temp = PlayerScoreKeeper.scoreValue;
-                PlayerScoreKeeper.scoreValue = ComputerScoreKeeper.scoreValue;
-                ComputerScoreKeeper.scoreValue = temp;
-                ReplaceMiddle(selected);   
-                state = GameState.COMPUTERTURN;
-                yield return new WaitForSeconds(1f);
-                computerInput.chooseCard();
-            }
-            else if (selected.GetComponent<Selectable>().value == 1 && selected.GetComponent<Selectable>().type == "P" && cMiddleCard.name == "S1")
+            //    // switches their scores
+            //    int temp = PlayerScoreKeeper.scoreValue;
+            //    PlayerScoreKeeper.scoreValue = ComputerScoreKeeper.scoreValue;
+            //    ComputerScoreKeeper.scoreValue = temp;
+            //    AddMiddle(selected);   
+            //    state = GameState.COMPUTERTURN;
+            //    yield return new WaitForSeconds(1f);
+            //    computerInput.chooseCard();
+            //}
+            else if (selected.GetComponent<Selectable>().value == 1 && selected.GetComponent<Selectable>().type == "P" 
+                && pMiddleCards[pMiddleCards.Count - 1].GetComponent<Selectable>().faceUp == false)
             {
                 // revive the burnt card
                 // destroy pluto card
                 // regain the lost points
-                prevSpriteRenderer.enabled = true; // make it visible now
+                pMiddleCards[pMiddleCards.Count - 1].GetComponent<Selectable>().faceUp = true;
+                PlayerScoreKeeper.scoreValue += pMiddleCards[pMiddleCards.Count - 1].GetComponent<Selectable>().value;
                 Destroy(selected);
-                PlayerScoreKeeper.scoreValue += pPrevMiddleCard.GetComponent<Selectable>().value;
-                pMiddleCard = pPrevMiddleCard; // just to give pMiddleCard a pointer for replaceMiddle
-                //ReplaceMiddle(pPrevMiddleCard);
                 state = GameState.COMPUTERTURN;
                 yield return new WaitForSeconds(1f); // wait for player to catch up on what's happening
                 computerInput.chooseCard();
@@ -391,7 +392,7 @@ public class Higher : MonoBehaviour
                 {
                     print("Player has played a card that allows his score to surpass the computer's.");
                     PlayerScoreKeeper.scoreValue += selectedCardScore;
-                    ReplaceMiddle(selected);
+                    AddMiddle(selected);
                     state = GameState.COMPUTERTURN;
                     yield return new WaitForSeconds(1f); // wait for player to catch up on what's happening
                     computerInput.chooseCard();
@@ -400,14 +401,14 @@ public class Higher : MonoBehaviour
                 {
                     print("Player has played a card with insufficient value. Game over.");
                     PlayerScoreKeeper.scoreValue += selectedCardScore;
-                    ReplaceMiddle(selected);
+                    AddMiddle(selected);
                     state = GameState.LOST;
                 }
                 else // player has picked a card that equalizes their total with the computer's total score
                 {
                     print("Player has played a card that equalizes their total with the computer's total score. Redrawing.");
                     PlayerScoreKeeper.scoreValue += selectedCardScore;
-                    ReplaceMiddle(selected);
+                    AddMiddle(selected);
                     yield return new WaitForSeconds(1f); // wait for player to catch up on what's happening
                     RedrawCard();
                 }
@@ -424,46 +425,34 @@ public class Higher : MonoBehaviour
             if (selected.GetComponent<Selectable>().type == "S")
             {
                 print("Computer has played a Sun card.");
-                Math.Max(PlayerScoreKeeper.scoreValue -= pMiddleCard.GetComponent<Selectable>().value, 0);
-
-                // saving in case the player plays a pluto card right after this turn
-                GameObject prevHolder = Instantiate(cardPrefab, new Vector3(2, 0, 0), Quaternion.identity);
-                prevHolder.GetComponent<Selectable>().value = pMiddleCard.GetComponent<Selectable>().value;
-                prevHolder.GetComponent<Selectable>().faceUp = true;
-                prevHolder.GetComponent<Selectable>().inMiddle = true;
-                prevSpriteRenderer = prevHolder.GetComponent<SpriteRenderer>();
-                pPrevMiddleCard = prevHolder;
-                pPrevMiddleCard.GetComponent<UpdateSprite>().cardFace = pMiddleCard.GetComponent<UpdateSprite>().cardFace;
-                prevSpriteRenderer.enabled = false; // make it invisible for now
-
-                //pPrevMiddleCard = pMiddleCard; // 
-                Destroy(pMiddleCard);
-                ReplaceMiddle(selected);
+                pMiddleCards[pMiddleCards.Count - 1].GetComponent<Selectable>().faceUp = false;
+                Math.Max(PlayerScoreKeeper.scoreValue -= pMiddleCards[pMiddleCards.Count - 1].GetComponent<Selectable>().value, 0);
+                Destroy(selected); // special cards are used up, not stored in middle
                 print("Computer has burned the Player's last pick with a Sun card");
                 state = GameState.PLAYERTURN;
                 yield return new WaitForSeconds(1f);
             }
             // if the computer selects "Wormhole" card
             // flip the computer and player's score
-            else if (selected.GetComponent<Selectable>().type == "W")
-            {
-                print("Computer has switched their score with the player's using a Wormhole card.");
+            //else if (selected.GetComponent<Selectable>().type == "W")
+            //{
+            //    print("Computer has switched their score with the player's using a Wormhole card.");
 
-                // switches their scores
-                int temp = ComputerScoreKeeper.scoreValue;
-                ComputerScoreKeeper.scoreValue = PlayerScoreKeeper.scoreValue;
-                PlayerScoreKeeper.scoreValue = temp;
-                ReplaceMiddle(selected);
-                state = GameState.PLAYERTURN;
-                yield return new WaitForSeconds(1f);
-            }
+            //    // switches their scores
+            //    int temp = ComputerScoreKeeper.scoreValue;
+            //    ComputerScoreKeeper.scoreValue = PlayerScoreKeeper.scoreValue;
+            //    PlayerScoreKeeper.scoreValue = temp;
+            //    AddMiddle(selected);
+            //    state = GameState.PLAYERTURN;
+            //    yield return new WaitForSeconds(1f);
+            //}
             else
             {    
                 if ((ComputerScoreKeeper.scoreValue + selectedCardScore) > PlayerScoreKeeper.scoreValue)
                 {
                     print("Computer has played a card that allows his score to surpass the player's.");
                     ComputerScoreKeeper.scoreValue += selectedCardScore;
-                    ReplaceMiddle(selected);
+                    AddMiddle(selected);
                     yield return new WaitForSeconds(1f);
                     state = GameState.PLAYERTURN;
                 }
@@ -471,14 +460,14 @@ public class Higher : MonoBehaviour
                 {
                     print("Computer has played a card with insufficient value. Game won.");
                     ComputerScoreKeeper.scoreValue += selectedCardScore;
-                    ReplaceMiddle(selected);
+                    AddMiddle(selected);
                     state = GameState.WON;
                 }
                 else // computer has picked a card that equalizes their total with the player's total score
                 {
                     print("Computer has played a card that equalizes their total with the player's total score. Redrawing.");
                     ComputerScoreKeeper.scoreValue += selectedCardScore;
-                    ReplaceMiddle(selected);
+                    AddMiddle(selected);
                     yield return new WaitForSeconds(1f); // wait for player to catch up on what's happening
                     RedrawCard();
                 }
@@ -488,19 +477,20 @@ public class Higher : MonoBehaviour
         }
     }
     
-    public void ReplaceMiddle(GameObject newMiddle)
+    public void AddMiddle(GameObject additionalMiddle)
     {
+        int playerMiddleListSize = pMiddleCards.Count;
+        int computerMiddleListSize = cMiddleCards.Count;
+
         if (state == GameState.PLAYERTURN)
         {
-            newMiddle.transform.position = new Vector3(2, 0, 0); // selected card goes to middle card position.
-            Destroy(pMiddleCard); // original middle card is removed from the game
-            pMiddleCard = newMiddle; // middle card is now the newly-selected card
+            additionalMiddle.transform.position = new Vector3(playerMiddleListSize + 2, 0, -1 * (playerMiddleListSize)); // selected card goes to middle card position.
+            pMiddleCards.Add(additionalMiddle);
         }
         else if (state == GameState.COMPUTERTURN)
         {
-            newMiddle.transform.position = new Vector3(-2, 0, 0); // selected card goes to middle card position
-            Destroy(cMiddleCard); // original middle card is removed from the game
-            cMiddleCard = newMiddle; // middle card is now the newly-selected card
+            additionalMiddle.transform.position = new Vector3((-1 * computerMiddleListSize) - 2, 0, -1 * (computerMiddleListSize)); // selected card goes to middle card position
+            cMiddleCards.Add(additionalMiddle);
         }
     }
 
@@ -510,8 +500,22 @@ public class Higher : MonoBehaviour
         PlayerScoreKeeper.scoreValue = 0; // reset scores in a draw
         ComputerScoreKeeper.scoreValue = 0;
 
-        Destroy(pMiddleCard); // get rid of middle cards in the case of a draw
-        Destroy(cMiddleCard);
+        for (int i = 0; i < pMiddleCards.Count; i++)
+        {
+            Destroy(pMiddleCards[i]);
+        }
+
+        for (int i = 0; i < cMiddleCards.Count; i++)
+        {
+            Destroy(cMiddleCards[i]);
+        }
+
+        pMiddleCards.Clear();
+        cMiddleCards.Clear();
+
+        print("Player middle cards list now has " + pMiddleCards.Count + " cards.");
+        print("Computer middle cards list now has " + cMiddleCards.Count + " cards.");
+
 
         state = GameState.DRAWCARD; // go back to draw state
     }
