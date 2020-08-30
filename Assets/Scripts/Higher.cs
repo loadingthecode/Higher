@@ -386,53 +386,14 @@ public class Higher : MonoBehaviour
             //// flip the player and computer's score
             else if (selected.GetComponent<Selectable>().type == "W")
             {
-                print("player has switched their score with the computer's using a wormhole card.");       
+                print("player has switched their score with the computer's using a wormhole card.");
                 // a temp arraylist that holds one of the player's middle cards list
                 // transfer one player's arraylist contents into the temp arraylist
                 // switch the transforms of both the computer and the player's cards
                 // transfer the other player's arraylist contents into the first player's arraylist
                 // transfer the temp arraylist content int othe other player's arraylist
 
-                // switch the card positions
-                for (int i = 0; i < pMiddleCards.Count; i++)
-                {
-                    pMiddleCards[i].transform.position = new Vector3(-1 * (i + 2), 0, -1 * i); // selected card goes to middle card position.
-                    pMiddleCards[i].transform.rotation = new Quaternion(0, 0, 180, 0);
-                }
-
-                for (int i = 0; i < cMiddleCards.Count; i++)
-                {
-                    cMiddleCards[i].transform.position = new Vector3(i + 2, 0, -1 * i); // selected card goes to middle card position.
-                    cMiddleCards[i].transform.rotation = new Quaternion(0, 0, 0, 0);
-                }
-
-                // switch the list pointers
-                List<GameObject> tempList = pMiddleCards;
-                pMiddleCards = cMiddleCards;
-                cMiddleCards = tempList;
-
-                // switches their scores
-                int temp = PlayerScoreKeeper.scoreValue;
-                PlayerScoreKeeper.scoreValue = ComputerScoreKeeper.scoreValue;
-                ComputerScoreKeeper.scoreValue = temp;
-
-                yield return new WaitForSeconds(1f);
-                removePFieldCard(selected);
-                Destroy(selected);
-
-                // if the player plays a special card as their last card, they lose
-                if (pFieldCards.Count == 0)
-                {
-                    print("Player has committed a foul. Game over.");
-                    state = GameState.LOST;
-                    matchEnd();
-                }
-                else
-                {
-                    state = GameState.COMPUTERTURN;
-                    yield return new WaitForSeconds(1f);
-                    computerInput.chooseCard();
-                }
+                UseWormholeCard(selected);
             }
             else if (selected.GetComponent<Selectable>().value == 1 && selected.GetComponent<Selectable>().type == "P" 
                 && pMiddleCards[pMiddleCards.Count - 1].GetComponent<Selectable>().faceUp == false)
@@ -468,7 +429,7 @@ public class Higher : MonoBehaviour
                     AddMiddle(selected);
                     removePFieldCard(selected);
                     state = GameState.LOST;
-                    matchEnd();
+                    callMatchEnd();
                 }
                 else // player has picked a card that equalizes their total with the computer's total score
                 {
@@ -498,42 +459,7 @@ public class Higher : MonoBehaviour
             {
                 print("Computer has switched their score with the player's using a Wormhole card.");
 
-                for (int i = 0; i < pMiddleCards.Count; i++)
-                {
-                    pMiddleCards[i].transform.position = new Vector3(-1 * (i + 2), 0, -1 * i); // selected card goes to middle card position.
-                    pMiddleCards[i].transform.rotation = new Quaternion(0, 0, 180, 0);
-                }
-
-                for (int i = 0; i < cMiddleCards.Count; i++)
-                {
-                    cMiddleCards[i].transform.position = new Vector3(i + 2, 0, -1 * i); // selected card goes to middle card position.
-                    cMiddleCards[i].transform.rotation = new Quaternion(0, 0, 0, 0);
-                }
-
-                // switch the list pointers
-                List<GameObject> tempList = pMiddleCards;
-                pMiddleCards = cMiddleCards;
-                cMiddleCards = tempList;
-
-                // switches their scores
-                int temp = ComputerScoreKeeper.scoreValue;
-                ComputerScoreKeeper.scoreValue = PlayerScoreKeeper.scoreValue;
-                PlayerScoreKeeper.scoreValue = temp;
-                yield return new WaitForSeconds(1f);
-                Destroy(selected);
-
-                // if the computer plays a special card as their last card, they lose
-                if (cFieldCards.Count == 0)
-                {
-                    print("Computer has committed a foul. Game won.");
-                    state = GameState.WON;
-                    matchEnd();
-                }
-                else
-                {
-                    state = GameState.PLAYERTURN;
-                    yield return new WaitForSeconds(1f);
-                }
+                UseWormholeCard(selected);
             }
             else if (selected.GetComponent<Selectable>().value == 1 && selected.GetComponent<Selectable>().type == "P"
                 && cMiddleCards[cMiddleCards.Count - 1].GetComponent<Selectable>().faceUp == false)
@@ -564,7 +490,7 @@ public class Higher : MonoBehaviour
                     ComputerScoreKeeper.scoreValue += selectedCardScore;
                     AddMiddle(selected);
                     state = GameState.WON;
-                    matchEnd();
+                    callMatchEnd();
                 }
                 else // computer has picked a card that equalizes their total with the player's total score
                 {
@@ -580,18 +506,26 @@ public class Higher : MonoBehaviour
         }
     }
 
+    // method to cast a Sun card on the opponent
     public void UseSunCard(GameObject sunCard)
     {
         StopCoroutine(SunCard(sunCard));
         StartCoroutine(SunCard(sunCard));
     }
 
-    // method to cast a Sun card on the opponent
+    // method to cast a Wormhole card on the opponent
+    public void UseWormholeCard(GameObject wormHoleCard)
+    {
+        StopCoroutine(WormholeCard(wormHoleCard));
+        StartCoroutine(WormholeCard(wormHoleCard));
+    }
+
     public IEnumerator SunCard(GameObject sunCard)
     {
        
         if (state == GameState.MOVECHECKER)
         {
+            removePFieldCard(sunCard);
             cardFlipper.StartFlip(cMiddleCards[cMiddleCards.Count - 1]);
             yield return new WaitForSeconds(0.5f);
             Math.Max(ComputerScoreKeeper.scoreValue -= cMiddleCards[cMiddleCards.Count - 1].GetComponent<Selectable>().value, 0);
@@ -602,7 +536,7 @@ public class Higher : MonoBehaviour
             {
                 print("Player has committed a foul. Game lost.");
                 state = GameState.LOST;
-                matchEnd();
+                callMatchEnd();
             }
             else
             {
@@ -623,7 +557,73 @@ public class Higher : MonoBehaviour
             {
                 print("Computer has committed a foul. Game won.");
                 state = GameState.WON;
-                matchEnd();
+                callMatchEnd();
+            }
+            else
+            {
+                state = GameState.PLAYERTURN;
+                yield return new WaitForSeconds(1f);
+            }
+        }
+    }
+
+    public IEnumerator WormholeCard(GameObject wormHoleCard)
+    {
+        // switch the card positions
+        for (int i = 0; i < pMiddleCards.Count; i++)
+        {
+            pMiddleCards[i].transform.position = new Vector3(-1 * (i + 2), 0, -1 * i); // selected card goes to middle card position.
+            pMiddleCards[i].transform.rotation = new Quaternion(0, 0, 180, 0);
+        }
+
+        for (int i = 0; i < cMiddleCards.Count; i++)
+        {
+            cMiddleCards[i].transform.position = new Vector3(i + 2, 0, -1 * i); // selected card goes to middle card position.
+            cMiddleCards[i].transform.rotation = new Quaternion(0, 0, 0, 0);
+        }
+
+        // switch the list pointers
+        List<GameObject> tempList = pMiddleCards;
+        pMiddleCards = cMiddleCards;
+        cMiddleCards = tempList;
+
+        // switches their scores
+        int temp = PlayerScoreKeeper.scoreValue;
+        PlayerScoreKeeper.scoreValue = ComputerScoreKeeper.scoreValue;
+        ComputerScoreKeeper.scoreValue = temp;
+
+        yield return new WaitForSeconds(1f);
+
+        if (state == GameState.MOVECHECKER)
+        {
+            removePFieldCard(wormHoleCard);
+            Destroy(wormHoleCard);
+
+            // if the player plays a special card as their last card, they lose
+            if (pFieldCards.Count == 0)
+            {
+                print("Player has committed a foul. Game over.");
+                state = GameState.LOST;
+                callMatchEnd();
+            }
+            else
+            {
+                state = GameState.COMPUTERTURN;
+                yield return new WaitForSeconds(1f);
+                computerInput.chooseCard();
+            }
+        } 
+        else if (state == GameState.COMPUTERTURN)
+        {
+            //removeCFieldCard(wormHoleCard);
+            Destroy(wormHoleCard);
+
+            // if the player plays a special card as their last card, they lose
+            if (cFieldCards.Count == 0)
+            {
+                print("Computer has committed a foul. Game won.");
+                state = GameState.WON;
+                callMatchEnd();
             }
             else
             {
@@ -640,14 +640,29 @@ public class Higher : MonoBehaviour
         print("Size of player's field cards is now " + pFieldCards.Count);
     }
 
-    // method controlling scene switch based on match end conditions
-    public void matchEnd()
+    // method to remove cards from the computer's hand as they are played
+    public void removeCFieldCard(GameObject card)
     {
+        cFieldCards.Remove(card);
+        print("Size of computer's field cards is now " + cFieldCards.Count);
+    }
+
+    // method controlling scene switch based on match end conditions
+    public void callMatchEnd()
+    {
+        StopCoroutine(matchEnd());
+        StartCoroutine(matchEnd());
+    }
+
+    public IEnumerator matchEnd()
+    {
+        yield return new WaitForSeconds(1f);
+
         if (state == GameState.LOST)
         {
             print("Player lost. Game over.");
             SceneManager.LoadScene("Lost");
-        } 
+        }
         else if (state == GameState.WON)
         {
             print("Player won! Game over.");
