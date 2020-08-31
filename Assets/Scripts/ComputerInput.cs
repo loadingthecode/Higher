@@ -145,22 +145,21 @@ public class ComputerInput : MonoBehaviour
             }
         }
 
-        if (specialCard != this.gameObject)
+
+        if (specialCard != this.gameObject && (specialCard.GetComponent<Selectable>().type == "S" || specialCard.GetComponent<Selectable>().type == "W"))
         {
-            if (specialCard.GetComponent<Selectable>().type == "S" || specialCard.GetComponent<Selectable>().type == "W")
-            {
-                selectedCard = specialCard;
-            }
-            else if (cameFromOtherDefaultBehavior == false)
-            {
-                // set this to true
-                // call other defaultBehavior
-                cameFromOtherDefaultBehavior = true;
-                findLeastBiggerCard();
-            }
+            selectedCard = specialCard;
+        }
+        else if (cameFromOtherDefaultBehavior == false)
+        {
+            // set this to true
+            // call other defaultBehavior
+            cameFromOtherDefaultBehavior = true;
+            findLeastBiggerCard();
         }
         else
         {
+            Debug.Log("Computer could not find a special card or a valid planet card. Picking randomly.");
             // select a random planet card
             int randomIndex = Random.Range(0, higher.cFieldCards.Count);
             selectedCard = higher.cFieldCards[randomIndex];
