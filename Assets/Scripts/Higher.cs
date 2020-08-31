@@ -13,6 +13,7 @@ public enum GameState
 {
     START, DRAWCARD, MOVECHECKER, PLAYERTURN, COMPUTERTURN, WON, LOST
 }
+
 public class Higher : MonoBehaviour
 {
     public static GameState state;
@@ -25,6 +26,7 @@ public class Higher : MonoBehaviour
     public SpriteRenderer prevSpriteRenderer;
     public CardFlipper cardFlipper;
     public UIButtons uiButtons;
+    public MatchEndScreen matchEndScreen;
 
     public static string[] types = new string[] { "P", "S", "W" };
     public static string[] values = new string[] { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
@@ -48,10 +50,12 @@ public class Higher : MonoBehaviour
     void Start()
     {
         state = GameState.START;
+        MatchEndScreen.lossReason = LossReason.NA;
         prevSpriteRenderer = GetComponent<SpriteRenderer>();
         computerInput = GetComponent<ComputerInput>();
         cardFlipper = GetComponent<CardFlipper>();
         uiButtons = GetComponent<UIButtons>();
+        matchEndScreen = GetComponent<MatchEndScreen>();
         Play();
     }
 
@@ -355,16 +359,38 @@ public class Higher : MonoBehaviour
         StartCoroutine(DrawCard());
     }
 
-    public void Select(GameObject selected)
+    // pre-select card method that checks to see if there are any cards left
+    // e.g. before the player's turn to select a card, if the player has no cards left
+    // the player loses
+    public void checkSelectableCards()
     {
-        StopCoroutine(SelectCard(selected));
-        StartCoroutine(SelectCard(selected));
+        print("Checking selectable cards in hands.");
+        if (state == GameState.MOVECHECKER)
+        {
+            print("Checking selectable cards in computer's hand.");
+            if (cFieldCards.Count == 0)
+            {
+                state = GameState.WON;
+                callMatchEnd();
+            }
+        }
+        else if (state == GameState.COMPUTERTURN)
+        {
+            print("Checking selectable cards in player's hand.");
+            if (pFieldCards.Count == 0)
+            {
+                print("No cards left in the player's hand.");
+                state = GameState.LOST;
+                MatchEndScreen.lossReason = LossReason.NOCARDS;
+                callMatchEnd();
+            }
+        }
     }
 
 
 
     // should encapsuale some of this in a "comparePoints" method later on dude
-    public IEnumerator SelectCard(GameObject selected)
+    public void SelectCard(GameObject selected)
     {
         // selected card has its value added to the players pool if it would make the total at least equal or greater to the enemy pool
         // and replaces whatever card is currently in the middle
@@ -401,45 +427,11 @@ public class Higher : MonoBehaviour
                 // revive the burnt card
                 // destroy pluto card
                 // regain the lost points
-                cardFlipper.StartFlip(pMiddleCards[pMiddleCards.Count - 1]);
-                yield return new WaitForSeconds(0.5f);
-                PlayerScoreKeeper.scoreValue += pMiddleCards[pMiddleCards.Count - 1].GetComponent<Selectable>().value;
-                removePFieldCard(selected);
-                Destroy(selected);
-                state = GameState.COMPUTERTURN;
-                yield return new WaitForSeconds(1f); // wait for player to catch up on what's happening
-                computerInput.chooseCard();
+                UseReviveCard(selected);
             }
             else
             {
-                if ((PlayerScoreKeeper.scoreValue + selectedCardScore) > ComputerScoreKeeper.scoreValue)
-                {
-                    print("Player has played a card that allows his score to surpass the computer's.");
-                    PlayerScoreKeeper.scoreValue += selectedCardScore;
-                    AddMiddle(selected);
-                    removePFieldCard(selected);
-                    state = GameState.COMPUTERTURN;
-                    yield return new WaitForSeconds(1f); // wait for player to catch up on what's happening
-                    computerInput.chooseCard();
-                }
-                else if ((PlayerScoreKeeper.scoreValue + selectedCardScore) < ComputerScoreKeeper.scoreValue)
-                {
-                    print("Player has played a card with insufficient value. Game over.");
-                    PlayerScoreKeeper.scoreValue += selectedCardScore;
-                    AddMiddle(selected);
-                    removePFieldCard(selected);
-                    state = GameState.LOST;
-                    callMatchEnd();
-                }
-                else // player has picked a card that equalizes their total with the computer's total score
-                {
-                    print("Player has played a card that equalizes their total with the computer's total score. Redrawing.");
-                    PlayerScoreKeeper.scoreValue += selectedCardScore;
-                    AddMiddle(selected);
-                    removePFieldCard(selected);
-                    yield return new WaitForSeconds(1f); // wait for player to catch up on what's happening
-                    RedrawCard();
-                }
+                UsePlanetCard(selected);
             }
         }
         else if (state == GameState.COMPUTERTURN)
@@ -467,42 +459,12 @@ public class Higher : MonoBehaviour
                 // revive the burnt card
                 // destroy pluto card
                 // regain the lost points
-                cardFlipper.StartFlip(cMiddleCards[cMiddleCards.Count - 1]);
-                yield return new WaitForSeconds(0.5f);
-                PlayerScoreKeeper.scoreValue += cMiddleCards[cMiddleCards.Count - 1].GetComponent<Selectable>().value;
-                Destroy(selected);
-                state = GameState.PLAYERTURN;
-                yield return new WaitForSeconds(1f); // wait for player to catch up on what's happening
+                UseReviveCard(selected);
             }
             else
-            {    
-                if ((ComputerScoreKeeper.scoreValue + selectedCardScore) > PlayerScoreKeeper.scoreValue)
-                {
-                    print("Computer has played a card that allows his score to surpass the player's.");
-                    ComputerScoreKeeper.scoreValue += selectedCardScore;
-                    AddMiddle(selected);
-                    yield return new WaitForSeconds(1f);
-                    state = GameState.PLAYERTURN;
-                }
-                else if ((ComputerScoreKeeper.scoreValue + selectedCardScore) < PlayerScoreKeeper.scoreValue)
-                {
-                    print("Computer has played a card with insufficient value. Game won.");
-                    ComputerScoreKeeper.scoreValue += selectedCardScore;
-                    AddMiddle(selected);
-                    state = GameState.WON;
-                    callMatchEnd();
-                }
-                else // computer has picked a card that equalizes their total with the player's total score
-                {
-                    print("Computer has played a card that equalizes their total with the player's total score. Redrawing.");
-                    ComputerScoreKeeper.scoreValue += selectedCardScore;
-                    AddMiddle(selected);
-                    yield return new WaitForSeconds(1f); // wait for player to catch up on what's happening
-                    RedrawCard();
-                }
+            {
+                UsePlanetCard(selected);
             }
-            
-            
         }
     }
 
@@ -520,6 +482,20 @@ public class Higher : MonoBehaviour
         StartCoroutine(WormholeCard(wormHoleCard));
     }
 
+    // method to select a Planet card
+    public void UsePlanetCard(GameObject planetCard)
+    {
+        StopCoroutine(PlanetCard(planetCard));
+        StartCoroutine(PlanetCard(planetCard));
+    }
+
+    // method to select a Pluto Revive card
+    public void UseReviveCard(GameObject reviveCard)
+    {
+        StopCoroutine(ReviveCard(reviveCard));
+        StartCoroutine(ReviveCard(reviveCard));
+    }
+
     public IEnumerator SunCard(GameObject sunCard)
     {
        
@@ -535,11 +511,13 @@ public class Higher : MonoBehaviour
             if (pFieldCards.Count == 0)
             {
                 print("Player has committed a foul. Game lost.");
+                MatchEndScreen.lossReason = LossReason.FOUL;
                 state = GameState.LOST;
                 callMatchEnd();
             }
             else
             {
+                checkSelectableCards();
                 state = GameState.COMPUTERTURN;
                 yield return new WaitForSeconds(1f);
                 computerInput.chooseCard();
@@ -561,6 +539,7 @@ public class Higher : MonoBehaviour
             }
             else
             {
+                checkSelectableCards();
                 state = GameState.PLAYERTURN;
                 yield return new WaitForSeconds(1f);
             }
@@ -604,10 +583,12 @@ public class Higher : MonoBehaviour
             {
                 print("Player has committed a foul. Game over.");
                 state = GameState.LOST;
+                MatchEndScreen.lossReason = LossReason.FOUL;
                 callMatchEnd();
             }
             else
             {
+                checkSelectableCards();
                 state = GameState.COMPUTERTURN;
                 yield return new WaitForSeconds(1f);
                 computerInput.chooseCard();
@@ -627,9 +608,102 @@ public class Higher : MonoBehaviour
             }
             else
             {
+                checkSelectableCards();
                 state = GameState.PLAYERTURN;
                 yield return new WaitForSeconds(1f);
             }
+        }
+    }
+
+    public IEnumerator PlanetCard(GameObject planetCard)
+    {
+        if (state == GameState.MOVECHECKER)
+        {
+            if ((PlayerScoreKeeper.scoreValue + planetCard.GetComponent<Selectable>().value) > ComputerScoreKeeper.scoreValue)
+            {
+                print("Player has played a card that allows his score to surpass the computer's.");
+                PlayerScoreKeeper.scoreValue += planetCard.GetComponent<Selectable>().value;
+                AddMiddle(planetCard);
+                removePFieldCard(planetCard);
+                checkSelectableCards();
+                state = GameState.COMPUTERTURN;
+                yield return new WaitForSeconds(1f); // wait for player to catch up on what's happening
+                computerInput.chooseCard();
+            }
+            else if ((PlayerScoreKeeper.scoreValue + planetCard.GetComponent<Selectable>().value) < ComputerScoreKeeper.scoreValue)
+            {
+                print("Player has played a card with insufficient value. Game over.");
+                PlayerScoreKeeper.scoreValue += planetCard.GetComponent<Selectable>().value;
+                AddMiddle(planetCard);
+                removePFieldCard(planetCard);
+                state = GameState.LOST;
+                MatchEndScreen.lossReason = LossReason.INSUFFICIENTVALUE;
+                callMatchEnd();
+            }
+            else // player has picked a card that equalizes their total with the computer's total score
+            {
+                print("Player has played a card that equalizes their total with the computer's total score. Redrawing.");
+                PlayerScoreKeeper.scoreValue += planetCard.GetComponent<Selectable>().value;
+                AddMiddle(planetCard);
+                removePFieldCard(planetCard);
+                yield return new WaitForSeconds(1f); // wait for player to catch up on what's happening
+                RedrawCard();
+            }
+        }
+        else if (state == GameState.COMPUTERTURN)
+        {
+            if ((ComputerScoreKeeper.scoreValue + planetCard.GetComponent<Selectable>().value) > PlayerScoreKeeper.scoreValue)
+            {
+                print("Computer has played a card that allows his score to surpass the player's.");
+                ComputerScoreKeeper.scoreValue += planetCard.GetComponent<Selectable>().value;
+                AddMiddle(planetCard);
+                checkSelectableCards();
+                yield return new WaitForSeconds(1f);
+                state = GameState.PLAYERTURN;
+            }
+            else if ((ComputerScoreKeeper.scoreValue + planetCard.GetComponent<Selectable>().value) < PlayerScoreKeeper.scoreValue)
+            {
+                print("Computer has played a card with insufficient value. Game won.");
+                ComputerScoreKeeper.scoreValue += planetCard.GetComponent<Selectable>().value;
+                AddMiddle(planetCard);
+                state = GameState.WON;
+                callMatchEnd();
+            }
+            else // computer has picked a card that equalizes their total with the player's total score
+            {
+                print("Computer has played a card that equalizes their total with the player's total score. Redrawing.");
+                ComputerScoreKeeper.scoreValue += planetCard.GetComponent<Selectable>().value;
+                AddMiddle(planetCard);
+                yield return new WaitForSeconds(1f); // wait for player to catch up on what's happening
+                RedrawCard();
+            }
+        }
+            
+    }
+
+    public IEnumerator ReviveCard(GameObject reviveCard)
+    {
+        if (state == GameState.MOVECHECKER)
+        {
+            cardFlipper.StartFlip(pMiddleCards[pMiddleCards.Count - 1]);
+            yield return new WaitForSeconds(0.5f);
+            PlayerScoreKeeper.scoreValue += pMiddleCards[pMiddleCards.Count - 1].GetComponent<Selectable>().value;
+            removePFieldCard(reviveCard);
+            Destroy(reviveCard);
+            checkSelectableCards();
+            state = GameState.COMPUTERTURN;
+            yield return new WaitForSeconds(1f); // wait for player to catch up on what's happening
+            computerInput.chooseCard();
+        }
+        else if (state == GameState.COMPUTERTURN)
+        {
+            cardFlipper.StartFlip(cMiddleCards[cMiddleCards.Count - 1]);
+            yield return new WaitForSeconds(0.5f);
+            PlayerScoreKeeper.scoreValue += cMiddleCards[cMiddleCards.Count - 1].GetComponent<Selectable>().value;
+            Destroy(reviveCard);
+            checkSelectableCards();
+            state = GameState.PLAYERTURN;
+            yield return new WaitForSeconds(1f); // wait for player to catch up on what's happening
         }
     }
 
@@ -656,7 +730,7 @@ public class Higher : MonoBehaviour
 
     public IEnumerator matchEnd()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(2f);
 
         if (state == GameState.LOST)
         {

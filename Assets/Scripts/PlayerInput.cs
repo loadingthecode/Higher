@@ -65,7 +65,7 @@ public class PlayerInput : MonoBehaviour
         {
             print("Select card method entered.");
             selectedCard = selected;
-            higher.Select(selectedCard);
+            higher.SelectCard(selectedCard);
         }
     }
 }
