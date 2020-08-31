@@ -701,7 +701,7 @@ public class Higher : MonoBehaviour
         {
             cardFlipper.StartFlip(cMiddleCards[cMiddleCards.Count - 1]);
             yield return new WaitForSeconds(0.5f);
-            PlayerScoreKeeper.scoreValue += cMiddleCards[cMiddleCards.Count - 1].GetComponent<Selectable>().value;
+            ComputerScoreKeeper.scoreValue += cMiddleCards[cMiddleCards.Count - 1].GetComponent<Selectable>().value;
             Destroy(reviveCard);
             checkSelectableCards();
             state = GameState.PLAYERTURN;
