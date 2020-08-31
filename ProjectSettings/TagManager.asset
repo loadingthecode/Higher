@@ -7,6 +7,7 @@ TagManager:
   - Deck
   - Card
   - cCard
+  - LossReasonText
   layers:
   - Default
   - TransparentFX

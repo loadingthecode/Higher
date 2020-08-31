@@ -21,17 +21,20 @@ public class MatchEndScreen : MonoBehaviour
         ComputerScoreKeeper.scoreValue = 0;
         PlayerScoreKeeper.scoreValue = 0;
         higher = GetComponent<Higher>();
-        reasonText = GameObject.FindGameObjectWithTag("LossReasonText").GetComponent<Text>();
-        PrintLossReason(lossReason);
+        determineMatchEndScreen();
     }
 
-    void Awake()
+    public void determineMatchEndScreen()
     {
-        DontDestroyOnLoad(this.gameObject);
+        if (lossReason != LossReason.NA)
+        {
+            PrintLossReason(lossReason);
+        }
     }
 
     public void PrintLossReason(LossReason lossReason)
     {
+        reasonText = GameObject.FindGameObjectWithTag("LossReasonText").GetComponent<Text>();
         if (lossReason == LossReason.INSUFFICIENTVALUE)
         {
             reasonText.text = "The card you selected did not have enough value.";

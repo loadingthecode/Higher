@@ -317,27 +317,35 @@ public class Higher : MonoBehaviour
             {
                 // if the Computer draws the last card in his hand and goes to redrawing phase
                 // AND also draws a lower card in the redrawing phase, they lose
-                if (cFieldCards.Count != 0)
+                if (cFieldCards.Count == 0)
                 {
                     print("Computer scored lower and has no cards left in play. Game over.");
                     state = GameState.WON;
+                    callMatchEnd();
+                } 
+                else
+                {
+                    print("Player scored higher, therefore computer goes first.");
+                    state = GameState.COMPUTERTURN;
+                    print("It is now computer turn.");
+                    computerInput.chooseCard();
                 }
-                print("Player scored higher, therefore computer goes first.");
-                state = GameState.COMPUTERTURN;
-                print("It is now computer turn.");
-                computerInput.chooseCard();
             } 
             else if (PlayerScoreKeeper.scoreValue < ComputerScoreKeeper.scoreValue)
             {
                 // if the player draws the last card in his hand and goes to redrawing phase
                 // AND also draws a lower card in the redrawing phase, they lose
-                if (pFieldCards.Count != 0)
+                if (pFieldCards.Count == 0)
                 {
                     print("Player scored lower and has no cards left in play. Game over.");
                     state = GameState.LOST;
+                    callMatchEnd();
                 }
-                print("Computer scored higher, therefore player goes first.");
-                state = GameState.PLAYERTURN;
+                else
+                {
+                    print("Computer scored higher, therefore player goes first.");
+                    state = GameState.PLAYERTURN;
+                }
             } 
             else
             {
@@ -373,10 +381,16 @@ public class Higher : MonoBehaviour
                 state = GameState.WON;
                 callMatchEnd();
             }
+            else
+            {
+                state = GameState.COMPUTERTURN;
+                computerInput.chooseCard();
+            }
+
         }
         else if (state == GameState.COMPUTERTURN)
         {
-            print("Checking selectable cards in player's hand.");
+            print("Again there are " + pFieldCards.Count + " cards left in the player's hand");
             if (pFieldCards.Count == 0)
             {
                 print("No cards left in the player's hand.");
@@ -384,18 +398,14 @@ public class Higher : MonoBehaviour
                 MatchEndScreen.lossReason = LossReason.NOCARDS;
                 callMatchEnd();
             }
+            else {
+                state = GameState.PLAYERTURN;
+            }
         }
     }
 
-
-
-    // should encapsuale some of this in a "comparePoints" method later on dude
     public void SelectCard(GameObject selected)
     {
-        // selected card has its value added to the players pool if it would make the total at least equal or greater to the enemy pool
-        // and replaces whatever card is currently in the middle
-        
-        int selectedCardScore = selected.GetComponent<Selectable>().value;
         if (state == GameState.PLAYERTURN)
         {
             state = GameState.MOVECHECKER;
@@ -517,10 +527,8 @@ public class Higher : MonoBehaviour
             }
             else
             {
-                checkSelectableCards();
-                state = GameState.COMPUTERTURN;
                 yield return new WaitForSeconds(1f);
-                computerInput.chooseCard();
+                checkSelectableCards();
             }
         } 
         else if (state == GameState.COMPUTERTURN)
@@ -588,10 +596,8 @@ public class Higher : MonoBehaviour
             }
             else
             {
-                checkSelectableCards();
-                state = GameState.COMPUTERTURN;
                 yield return new WaitForSeconds(1f);
-                computerInput.chooseCard();
+                checkSelectableCards();
             }
         } 
         else if (state == GameState.COMPUTERTURN)
@@ -625,10 +631,9 @@ public class Higher : MonoBehaviour
                 PlayerScoreKeeper.scoreValue += planetCard.GetComponent<Selectable>().value;
                 AddMiddle(planetCard);
                 removePFieldCard(planetCard);
+                yield return new WaitForSeconds(1f);
                 checkSelectableCards();
-                state = GameState.COMPUTERTURN;
-                yield return new WaitForSeconds(1f); // wait for player to catch up on what's happening
-                computerInput.chooseCard();
+              
             }
             else if ((PlayerScoreKeeper.scoreValue + planetCard.GetComponent<Selectable>().value) < ComputerScoreKeeper.scoreValue)
             {
@@ -657,9 +662,8 @@ public class Higher : MonoBehaviour
                 print("Computer has played a card that allows his score to surpass the player's.");
                 ComputerScoreKeeper.scoreValue += planetCard.GetComponent<Selectable>().value;
                 AddMiddle(planetCard);
-                checkSelectableCards();
                 yield return new WaitForSeconds(1f);
-                state = GameState.PLAYERTURN;
+                checkSelectableCards();             
             }
             else if ((ComputerScoreKeeper.scoreValue + planetCard.GetComponent<Selectable>().value) < PlayerScoreKeeper.scoreValue)
             {
@@ -690,10 +694,8 @@ public class Higher : MonoBehaviour
             PlayerScoreKeeper.scoreValue += pMiddleCards[pMiddleCards.Count - 1].GetComponent<Selectable>().value;
             removePFieldCard(reviveCard);
             Destroy(reviveCard);
-            checkSelectableCards();
-            state = GameState.COMPUTERTURN;
             yield return new WaitForSeconds(1f); // wait for player to catch up on what's happening
-            computerInput.chooseCard();
+            checkSelectableCards();
         }
         else if (state == GameState.COMPUTERTURN)
         {
@@ -730,7 +732,9 @@ public class Higher : MonoBehaviour
 
     public IEnumerator matchEnd()
     {
-        yield return new WaitForSeconds(2f);
+        print(state);
+        print("Calculating win/loss state...");
+        yield return new WaitForSeconds(1f);
 
         if (state == GameState.LOST)
         {
