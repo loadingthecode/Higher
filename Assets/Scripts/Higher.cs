@@ -533,6 +533,7 @@ public class Higher : MonoBehaviour
         } 
         else if (state == GameState.COMPUTERTURN)
         {
+            removeCFieldCard(sunCard);
             cardFlipper.StartFlip(pMiddleCards[pMiddleCards.Count - 1]);
             yield return new WaitForSeconds(0.5f);
             Math.Max(PlayerScoreKeeper.scoreValue -= pMiddleCards[pMiddleCards.Count - 1].GetComponent<Selectable>().value, 0);
@@ -602,7 +603,7 @@ public class Higher : MonoBehaviour
         } 
         else if (state == GameState.COMPUTERTURN)
         {
-            //removeCFieldCard(wormHoleCard);
+            removeCFieldCard(wormHoleCard);
             Destroy(wormHoleCard);
 
             // if the player plays a special card as their last card, they lose
@@ -662,6 +663,7 @@ public class Higher : MonoBehaviour
                 print("Computer has played a card that allows his score to surpass the player's.");
                 ComputerScoreKeeper.scoreValue += planetCard.GetComponent<Selectable>().value;
                 AddMiddle(planetCard);
+                removeCFieldCard(planetCard);
                 yield return new WaitForSeconds(1f);
                 checkSelectableCards();             
             }
@@ -670,6 +672,7 @@ public class Higher : MonoBehaviour
                 print("Computer has played a card with insufficient value. Game won.");
                 ComputerScoreKeeper.scoreValue += planetCard.GetComponent<Selectable>().value;
                 AddMiddle(planetCard);
+                removeCFieldCard(planetCard);
                 state = GameState.WON;
                 callMatchEnd();
             }
@@ -678,6 +681,7 @@ public class Higher : MonoBehaviour
                 print("Computer has played a card that equalizes their total with the player's total score. Redrawing.");
                 ComputerScoreKeeper.scoreValue += planetCard.GetComponent<Selectable>().value;
                 AddMiddle(planetCard);
+                removeCFieldCard(planetCard);
                 yield return new WaitForSeconds(1f); // wait for player to catch up on what's happening
                 RedrawCard();
             }
@@ -702,6 +706,7 @@ public class Higher : MonoBehaviour
             cardFlipper.StartFlip(cMiddleCards[cMiddleCards.Count - 1]);
             yield return new WaitForSeconds(0.5f);
             ComputerScoreKeeper.scoreValue += cMiddleCards[cMiddleCards.Count - 1].GetComponent<Selectable>().value;
+            removeCFieldCard(reviveCard);
             Destroy(reviveCard);
             checkSelectableCards();
             state = GameState.PLAYERTURN;

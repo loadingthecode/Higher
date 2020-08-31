@@ -28,24 +28,60 @@ public class ComputerInput : MonoBehaviour
         // for now let the chance of either default behavior per turn be 50% chance to activate (for a total of 100%)
         // int to control chance of either doing defaultBehaviorA or defaultBehaviorB
         // also need to check if hit with sun card in the previous turn WITHIN BOTH BEHAVIORS
-
+        selectedCard = this.gameObject;
         cameFromOtherDefaultBehavior = false;
-        int behaviorPick = Random.Range(0, 100);
 
-        // defaultBehaviorA will include behaviorPick nums ranging from 0 - 49
-        if (behaviorPick >= 0 && behaviorPick <= 49)
+
+        // if hit by a Sun card in the previous turn, prioritize looking for a pluto card
+        // if findPlutoCard fails to change selectedCard, it will remain at this.gameObject
+        // therefore we just go pick as normal
+        if (higher.cMiddleCards[higher.cMiddleCards.Count - 1].GetComponent<Selectable>().faceUp == false)
         {
-            findLeastBiggerCard();
+            print("Computer was hit by a Sun card last turn, so checking for available Pluto card.");
+            findPlutoCard();
         }
-        // defaultBehaviorB will include behaviorPick nums ranging from 50 - 99
-        else
+
+        if (selectedCard == this.gameObject)
         {
-            pickSpecialCard();
+            int behaviorPick = Random.Range(0, 100);
+            print("Computer was not hit b ya Sun card, so just going through normal algorithm.");
+            // defaultBehaviorA will include behaviorPick nums ranging from 0 - 49
+            if (behaviorPick >= 0 && behaviorPick <= 49)
+            {
+                findLeastBiggerCard();
+            }
+            // defaultBehaviorB will include behaviorPick nums ranging from 50 - 99
+            else
+            {
+                pickSpecialCard();
+            }
         }
 
         higher.cFieldCards.RemoveAt(indexOfSelectedCard);// to ensure we don't accidentally point to null
         print("Computer chooses " + selectedCard);
         higher.SelectCard(selectedCard);
+    }
+
+    void findPlutoCard()
+    {
+        // before this method is called, the fact that computer was hit by a sun card on the last turn will be checked
+        // if hit by a sun card in the previous turn, priority goes to selecting a pluto card
+        // if there is no pluto card in the hand
+        // then pick as usual
+
+        for (int i = 0; i < higher.cFieldCards.Count; i++)
+        {
+            GameObject currentCard = higher.cFieldCards[i];
+            if (currentCard.GetComponent<Selectable>().type == "P" 
+                && currentCard.GetComponent<Selectable>().value == 1)
+            {
+                print("Computer found Pluto card.");
+                selectedCard = currentCard;
+                indexOfSelectedCard = i;
+                break;
+            }
+        }
+        print("Computer DID NOT find Pluto card.");
     }
 
     // defaultBehaviorA
@@ -145,7 +181,6 @@ public class ComputerInput : MonoBehaviour
             }
         }
 
-
         if (specialCard != this.gameObject && (specialCard.GetComponent<Selectable>().type == "S" || specialCard.GetComponent<Selectable>().type == "W"))
         {
             selectedCard = specialCard;
@@ -159,7 +194,6 @@ public class ComputerInput : MonoBehaviour
         }
         else
         {
-            Debug.Log("Computer could not find a special card or a valid planet card. Picking randomly.");
             // select a random planet card
             int randomIndex = Random.Range(0, higher.cFieldCards.Count);
             selectedCard = higher.cFieldCards[randomIndex];
