@@ -65,6 +65,17 @@ I still need to add sound and music to the game.
 ### More Cards!!!
 Of course, the sun and wormhole cards will not be the only special cards in the game. I am still coming up with new ideas on the flow :)
 
+## Tools Used
+
+### Unity
+The bread and butter front and backend of the game. Programmed using C# and Unity's 2D renderer. 
+
+### GIMP
+Essentially photoshop-lite. Used to edit free-to-modify game assets like the cards.
+
+### YouTube
+Tons of card game tutorials out there that helped shape my workflow and game structure.
+
 ## Asset Sources
 
 ### Sprites and Images
