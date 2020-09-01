@@ -52,4 +52,9 @@ surpass the point total of the opponent. After picking a card with a valid value
 2. The computer plays a card with insufficient value.
 3. The computer plays a special card (Sun or Wormhole) as their last card. This is considered a foul and will result in an instant loss for the offender.
 
+## Asset Sources
 
+### Sprites and Images
+* https://pixabay.com/
+* https://www.fairway3games.com/free-poker-sized-card-templates/
+* https://freesound.org/
