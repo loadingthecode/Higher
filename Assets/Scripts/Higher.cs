@@ -246,7 +246,7 @@ public class Higher : MonoBehaviour
             // vector position of all 10 computer field cards
             float cFieldCardX = cFieldTransforms[i].position.x;
             float cFieldCardY = cFieldTransforms[i].position.y;
-            float cFieldCardZ = cFieldTransforms[i].position.z + i;
+            float cFieldCardZ = cFieldTransforms[i].position.z - i;
 
             // speed of pass
             cardPassSpeed = 2f;
@@ -572,10 +572,25 @@ public class Higher : MonoBehaviour
         if (state == GameState.MOVECHECKER)
         {
             removePFieldCard(sunCard);
-            cardFlipper.StartFlip(cMiddleCards[cMiddleCards.Count - 1]);
-            yield return new WaitForSeconds(0.5f);
-            Math.Max(ComputerScoreKeeper.scoreValue -= cMiddleCards[cMiddleCards.Count - 1].GetComponent<Selectable>().value, 0);
-            Destroy(sunCard); // special cards are used up, not stored in middle
+            // if use a sun card on facedown card
+            // create a super nova and destroy all cards in the middle
+            // redraw cards
+            if (cMiddleCards[cMiddleCards.Count - 1].GetComponent<Selectable>().faceUp == false)
+            {
+                print("hit a facedown card with a Suncard, supernova destroys everything. redrawing.");
+                Destroy(sunCard);
+                PlayerScoreKeeper.scoreValue = 0;
+                ComputerScoreKeeper.scoreValue = 0;
+                RedrawCard();
+            } 
+            else
+            {
+                cardFlipper.StartFlip(cMiddleCards[cMiddleCards.Count - 1]);
+                yield return new WaitForSeconds(0.5f);
+                Math.Max(ComputerScoreKeeper.scoreValue -= cMiddleCards[cMiddleCards.Count - 1].GetComponent<Selectable>().value, 0);
+                Destroy(sunCard);
+            }
+             // special cards are used up, not stored in middle
             // if the computer plays a special card as their last card, they lose
             if (pFieldCards.Count == 0)
             {
