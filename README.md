@@ -8,6 +8,8 @@ series.
 
 Check out the Blade minigame here: https://youtu.be/IVmlHhTL7Bc?t=10
 
+NOTE: All of the assets used in this project are deemed free to use. 
+
 ## Types of Cards
 There are 3 main types of cards: Planet, Sun, and Wormhole. 
 
