@@ -25,4 +25,31 @@ card is now lost forever.
 Wormhole cards are a special type of card that will switch both the player and computer's scores. This card is particularly devastating when the opponent has a high point lead. 
 Be aware, however, that the opponent can also reply with a Wormhole of their own, switching the scores right back!
 
-## Example
+## Typical Game Process
+
+### Phase 1: Game Setup
+#### Shuffling
+Each player has a deck of 32 cards which will be shuffled using the Fisher-Yates algorithm (a popular way of randomizing a set of values).
+
+#### Dealing
+10 cards are dealt out from the player's and computer's deck onto the bottom and top portions of the screen, respectively. You are not allowed to view the opponent's cards.
+
+### Phase 2: The Actual Game
+
+#### Card Drawing
+Both players must draw a single card from their deck by clicking on it. Both cards then get placed in the middle of the playing field, which is where all cards are "active" 
+and will have their values added to their owners' point total.
+
+Whoever drew the card with the lowest value gets to go first.
+
+#### Selecting a Card from the Hand
+Once both players have drawn a card from the first stage, the player that scored lower goes first. The player must draw a card that when added to their point total, will
+surpass the point total of the opponent. After picking a card with a valid value, the opposing player goes next.
+
+### Phase 3: Win Conditions
+
+1. The player plays a valid card and the computer has no cards left to reply with.
+2. The computer plays a card with insufficient value.
+3. The computer plays a special card (Sun or Wormhole) as their last card. This is considered a foul and will result in an instant loss for the offender.
+
+
