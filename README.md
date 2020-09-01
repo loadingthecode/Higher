@@ -57,4 +57,6 @@ surpass the point total of the opponent. After picking a card with a valid value
 ### Sprites and Images
 * https://pixabay.com/
 * https://www.fairway3games.com/free-poker-sized-card-templates/
+
+### Sounds and Music
 * https://freesound.org/
