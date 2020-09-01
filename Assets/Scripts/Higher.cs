@@ -326,7 +326,7 @@ public class Higher : MonoBehaviour
             PlayerScoreKeeper.scoreValue += pDrawnCardValue;
             print(pMiddleCards[0].name + " was drawn by the player.");
             pMiddleCards[0].GetComponent<Selectable>().faceUp = true;
-            pMiddleCards[0].transform.position = new Vector3(2, 0, 0); // right next to the player's score counter
+            iTween.MoveTo(pMiddleCards[0], new Vector3(2, 0, 0), 0.75f);
 
             yield return new WaitForSeconds(1f); // a delay between both draws to allow the player to understand what just happened
 
@@ -336,7 +336,7 @@ public class Higher : MonoBehaviour
             ComputerScoreKeeper.scoreValue += cDrawnCardValue;
             print(cMiddleCards[0].name + " was drawn by the computer.");
             cMiddleCards[0].GetComponent<Selectable>().faceUp = true;
-            cMiddleCards[0].transform.position = new Vector3(-2, 0, 0);
+            iTween.MoveTo(cMiddleCards[0], new Vector3(-2, 0, 0), 0.75f);
 
             yield return new WaitForSeconds(1f); // a delay between both draws to allow the player to understand what just happened
             
@@ -793,14 +793,19 @@ public class Higher : MonoBehaviour
         int playerMiddleListSize = pMiddleCards.Count;
         int computerMiddleListSize = cMiddleCards.Count;
 
+        int xOffset = 2;
+        int zOffset = -1 * (playerMiddleListSize);
+
         if (state == GameState.MOVECHECKER)
         {
-            additionalMiddle.transform.position = new Vector3(playerMiddleListSize + 2, 0, -1 * (playerMiddleListSize)); // selected card goes to middle card position.
+            // selected card goes to middle card position.
+            iTween.MoveTo(additionalMiddle, new Vector3(playerMiddleListSize + xOffset, 0, zOffset), 0.75f);
             pMiddleCards.Add(additionalMiddle);
         }
         else if (state == GameState.COMPUTERTURN)
         {
-            additionalMiddle.transform.position = new Vector3((-1 * computerMiddleListSize) - 2, 0, -1 * (computerMiddleListSize)); // selected card goes to middle card position
+            // selected card goes to middle card position
+            iTween.MoveTo(additionalMiddle, new Vector3((-1 * computerMiddleListSize) - xOffset, 0, zOffset), 0.75f); 
             cMiddleCards.Add(additionalMiddle);
         }
     }
