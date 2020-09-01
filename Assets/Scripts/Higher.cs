@@ -27,6 +27,7 @@ public class Higher : MonoBehaviour
     public CardFlipper cardFlipper;
     public UIButtons uiButtons;
     public MatchEndScreen matchEndScreen;
+    public AudioManager audioManager;
 
     public static string[] types = new string[] { "P", "S", "W" };
     public static string[] values = new string[] { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
@@ -62,6 +63,7 @@ public class Higher : MonoBehaviour
         prevSpriteRenderer = GetComponent<SpriteRenderer>();
         computerInput = GetComponent<ComputerInput>();
         cardFlipper = GetComponent<CardFlipper>();
+        audioManager = GetComponent<AudioManager>();
         uiButtons = GetComponent<UIButtons>();
         matchEndScreen = GetComponent<MatchEndScreen>();
         Play();
@@ -325,22 +327,45 @@ public class Higher : MonoBehaviour
             int pDrawnCardValue = pMiddleCards[0].GetComponent<Selectable>().value;
             PlayerScoreKeeper.scoreValue += pDrawnCardValue;
             print(pMiddleCards[0].name + " was drawn by the player.");
-            pMiddleCards[0].GetComponent<Selectable>().faceUp = true;
-            iTween.MoveTo(pMiddleCards[0], new Vector3(2, 0, 0), 0.75f);
 
-            yield return new WaitForSeconds(1f); // a delay between both draws to allow the player to understand what just happened
+            callDrawMotion(pMiddleCards[0]);
+
+            yield return new WaitForSeconds(1.5f); // a delay between both draws to allow the player to understand what just happened
 
             cMiddleCards.Add(cPhysicalDeck[0]);
             cPhysicalDeck.RemoveAt(0);
             int cDrawnCardValue = cMiddleCards[0].GetComponent<Selectable>().value;
             ComputerScoreKeeper.scoreValue += cDrawnCardValue;
             print(cMiddleCards[0].name + " was drawn by the computer.");
-            cMiddleCards[0].GetComponent<Selectable>().faceUp = true;
-            iTween.MoveTo(cMiddleCards[0], new Vector3(-2, 0, 0), 0.75f);
 
-            yield return new WaitForSeconds(1f); // a delay between both draws to allow the player to understand what just happened
+            callDrawMotion(cMiddleCards[0]);
+
+            yield return new WaitForSeconds(2.5f); // a delay between both draws to allow the player to understand what just happened
             
             whoGoesFirst();
+        }
+    }
+
+    public void callDrawMotion(GameObject card)
+    {
+        StopCoroutine(drawMotion(card));
+        StartCoroutine(drawMotion(card));
+    }
+    IEnumerator drawMotion(GameObject card)
+    {
+        iTween.MoveTo(card, new Vector3(card.transform.position.x, card.transform.position.y, -2), 0.01f);
+        card.GetComponent<Selectable>().faceUp = true;
+        if (card.tag == "Card")
+        {
+            iTween.RotateFrom(card, new Vector3(0, 180, 0), 2.5f);
+            yield return new WaitForSeconds(1f);
+            iTween.MoveTo(card, new Vector3(2, 0, 0), 0.75f);
+        } 
+        else
+        {
+            iTween.RotateFrom(card, new Vector3(180, 0, 0), 2.5f);
+            yield return new WaitForSeconds(1f);
+            iTween.MoveTo(card, new Vector3(-2, 0, 0), 0.75f);
         }
     }
 
@@ -551,7 +576,6 @@ public class Higher : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
             Math.Max(ComputerScoreKeeper.scoreValue -= cMiddleCards[cMiddleCards.Count - 1].GetComponent<Selectable>().value, 0);
             Destroy(sunCard); // special cards are used up, not stored in middle
-
             // if the computer plays a special card as their last card, they lose
             if (pFieldCards.Count == 0)
             {
@@ -729,6 +753,7 @@ public class Higher : MonoBehaviour
         if (state == GameState.MOVECHECKER)
         {
             cardFlipper.StartFlip(pMiddleCards[pMiddleCards.Count - 1]);
+            FindObjectOfType<AudioManager>().Play("Revive");
             yield return new WaitForSeconds(0.5f);
             PlayerScoreKeeper.scoreValue += pMiddleCards[pMiddleCards.Count - 1].GetComponent<Selectable>().value;
             removePFieldCard(reviveCard);
@@ -793,19 +818,18 @@ public class Higher : MonoBehaviour
         int playerMiddleListSize = pMiddleCards.Count;
         int computerMiddleListSize = cMiddleCards.Count;
 
-        int xOffset = 2;
-        int zOffset = -1 * (playerMiddleListSize);
+        //float xOffset = 0.5f;
 
         if (state == GameState.MOVECHECKER)
         {
             // selected card goes to middle card position.
-            iTween.MoveTo(additionalMiddle, new Vector3(playerMiddleListSize + xOffset, 0, zOffset), 0.75f);
+            iTween.MoveTo(additionalMiddle, new Vector3((playerMiddleListSize) + 2, 0, -1 * (playerMiddleListSize)), 0.75f);
             pMiddleCards.Add(additionalMiddle);
         }
         else if (state == GameState.COMPUTERTURN)
         {
             // selected card goes to middle card position
-            iTween.MoveTo(additionalMiddle, new Vector3((-1 * computerMiddleListSize) - xOffset, 0, zOffset), 0.75f); 
+            iTween.MoveTo(additionalMiddle, new Vector3((-1 * computerMiddleListSize) - 2, 0, -1 * (computerMiddleListSize)), 0.75f); 
             cMiddleCards.Add(additionalMiddle);
         }
     }
