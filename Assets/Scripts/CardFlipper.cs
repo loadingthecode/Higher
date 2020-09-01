@@ -6,9 +6,16 @@ using UnityEngine;
 public class CardFlipper : MonoBehaviour
 {
     public int timer;
+    public Higher higher;
+
+    private void Start()
+    {
+        higher = GetComponent<Higher>();
+    }
 
     public void StartFlip(GameObject card)
     {
+        StopCoroutine(CalculateFlip(card));
         StartCoroutine(CalculateFlip(card));
     }
 

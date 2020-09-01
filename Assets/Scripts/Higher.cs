@@ -11,7 +11,7 @@ using Packages.Rider.Editor.UnitTesting;
 
 public enum GameState
 {
-    START, DRAWCARD, MOVECHECKER, PLAYERTURN, COMPUTERTURN, WON, LOST
+    START, DRAWCARD, PASSINGCARDS, MOVECHECKER, PLAYERTURN, COMPUTERTURN, WON, LOST
 }
 
 public class Higher : MonoBehaviour
@@ -46,11 +46,19 @@ public class Higher : MonoBehaviour
     public List<GameObject> pFieldCards; // no more than 10
     public List<GameObject> cFieldCards; // no more than 10
 
+    public Transform[] pFieldTransforms;
+    public Transform[] cFieldTransforms;
+
+    public Transform playerStartCardPos, playerEndCardPos, computerStartCardPos, computerEndCardPos;
+    public float cardPassSpeed;
+
     // Start is called before the first frame update
     void Start()
     {
         state = GameState.START;
         MatchEndScreen.lossReason = LossReason.NA;
+        pFieldTransforms = new Transform[10];
+        cFieldTransforms = new Transform[10];
         prevSpriteRenderer = GetComponent<SpriteRenderer>();
         computerInput = GetComponent<ComputerInput>();
         cardFlipper = GetComponent<CardFlipper>();
@@ -200,25 +208,56 @@ public class Higher : MonoBehaviour
 
     IEnumerator DealCards()
     {
-        float pXOffset = 0;
-        float pZOffset = 0.03f;
-
-        float cXOffset = 0;
-        float cZOffset = 0.03f;
-
         GameObject pDeckButton = GameObject.Find("PlayerDeckButton"); // used to get the transform of deck location
         GameObject cDeckButton = GameObject.Find("ComputerDeckButton");
+
+        for (int i = 0; i < pFieldTransforms.Length; i++)
+        {
+            String pTransName = "PlayerHand" + i;
+            String cTransname = "ComputerHand" + i;
+            pFieldTransforms[pFieldTransforms.Length - i + -1] = GameObject.Find(pTransName).transform;
+            cFieldTransforms[pFieldTransforms.Length - i + -1] = GameObject.Find(cTransname).transform;
+        }
 
         // for fields
         for (int i = 0; i < 10; i++) 
         {
-            yield return new WaitForSeconds(0.1f); // spawns cards one-by-one visually
+            
             GameObject pNewCard;
             GameObject cNewCard;
 
-            pNewCard = Instantiate(cardPrefab, new Vector3(-5.79f + pXOffset, -4f, transform.position.z + pZOffset), Quaternion.identity);
-            cNewCard = Instantiate(cardPrefab, new Vector3(5.57f + cXOffset, 4f, transform.position.z + cZOffset), new Quaternion(0, 0, 180, 0));
-             
+            // vector position of player deck
+            float pDeckButtonX = pDeckButton.transform.position.x;
+            float pDeckButtonY = pDeckButton.transform.position.y;
+            float pDeckButtonZ = pDeckButton.transform.position.z;
+
+            // vector position of computer deck
+            float cDeckButtonX = cDeckButton.transform.position.x;
+            float cDeckButtonY = cDeckButton.transform.position.y;
+            float cDeckButtonZ = cDeckButton.transform.position.z;
+
+            // vector position of all 10 player field cards
+            float pFieldCardX = pFieldTransforms[i].position.x;
+            float pFieldCardY = pFieldTransforms[i].position.y;
+            float pFieldCardZ = pFieldTransforms[i].position.z - i;
+
+            // vector position of all 10 computer field cards
+            float cFieldCardX = cFieldTransforms[i].position.x;
+            float cFieldCardY = cFieldTransforms[i].position.y;
+            float cFieldCardZ = cFieldTransforms[i].position.z + i;
+
+            // speed of pass
+            cardPassSpeed = 2f;
+
+            // player deck start pos is -9, -4 -- computer deck start pos is 9, 4
+            // instantiate pNewCards at -9, 4
+            // then have the first one travel to pos -6, -4... and so forth til the end of the row
+            pNewCard = Instantiate(cardPrefab, new Vector3(pDeckButtonX, pDeckButtonY, pDeckButtonZ - 3), Quaternion.identity);
+            cNewCard = Instantiate(cardPrefab, new Vector3(cDeckButtonX, cDeckButtonY, cDeckButtonZ - 3), new Quaternion(0, 0, 180, 0));
+
+            iTween.MoveTo(pNewCard, new Vector3(pFieldCardX, pFieldCardY, pFieldCardZ), 0.75f);
+            iTween.MoveTo(cNewCard, new Vector3(cFieldCardX, cFieldCardY, cFieldCardZ), 0.75f);
+
             pNewCard.name = pField[i];
             cNewCard.name = cField[i];
 
@@ -229,12 +268,8 @@ public class Higher : MonoBehaviour
             pNewCard.GetComponent<Selectable>().faceUp = true;
             cNewCard.GetComponent<Selectable>().faceUp = false;
 
-            pXOffset = pXOffset + 1.5f;
-            pZOffset = pZOffset + 0.03f;
-            cXOffset = cXOffset - 1.5f;
-            cZOffset = cZOffset + 0.03f;
+            yield return new WaitForSeconds(0.1f); // spawns cards one-by-one visually
         }
-
         // for decks
         for (int i = 0; i < 22; i++)
         {

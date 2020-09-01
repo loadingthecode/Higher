@@ -8,6 +8,7 @@ TagManager:
   - Card
   - cCard
   - LossReasonText
+  - pFieldTrans
   layers:
   - Default
   - TransparentFX

@@ -359,11 +359,11 @@ GameObject:
   - component: {fileID: 165068573}
   m_Layer: 0
   m_Name: PlayerHand9
-  m_TagString: Untagged
+  m_TagString: pFieldTrans
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!212 &165068573
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -423,8 +423,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 165068572}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.79, y: -3.46, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 1}
+  m_LocalPosition: {x: 7.5, y: -4, z: 0.03}
+  m_LocalScale: {x: 0.25, y: 0.25, z: 1}
   m_Children: []
   m_Father: {fileID: 1568513007}
   m_RootOrder: 9
@@ -440,12 +440,12 @@ GameObject:
   - component: {fileID: 174015412}
   - component: {fileID: 174015413}
   m_Layer: 0
-  m_Name: ComputerHand1
+  m_Name: ComputerHand8
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &174015412
 Transform:
   m_ObjectHideFlags: 0
@@ -454,7 +454,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 174015411}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -6.5099998, y: 3.5, z: 0}
+  m_LocalPosition: {x: -6, y: 4, z: 0.03}
   m_LocalScale: {x: 0.3, y: 0.3, z: 1}
   m_Children: []
   m_Father: {fileID: 552638371}
@@ -553,12 +553,12 @@ GameObject:
   - component: {fileID: 320147634}
   - component: {fileID: 320147635}
   m_Layer: 0
-  m_Name: ComputerHand0
+  m_Name: ComputerHand9
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &320147634
 Transform:
   m_ObjectHideFlags: 0
@@ -567,7 +567,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 320147633}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -8.01, y: 3.5, z: 0}
+  m_LocalPosition: {x: -7.5, y: 4, z: 0.03}
   m_LocalScale: {x: 0.3, y: 0.3, z: 1}
   m_Children: []
   m_Father: {fileID: 552638371}
@@ -636,11 +636,11 @@ GameObject:
   - component: {fileID: 488350240}
   m_Layer: 0
   m_Name: PlayerHand8
-  m_TagString: Untagged
+  m_TagString: pFieldTrans
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!212 &488350240
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -700,8 +700,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 488350239}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.29, y: -3.46, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 1}
+  m_LocalPosition: {x: 6, y: -4, z: 0.03}
+  m_LocalScale: {x: 0.25, y: 0.25, z: 1}
   m_Children: []
   m_Father: {fileID: 1568513007}
   m_RootOrder: 8
@@ -783,7 +783,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 0.15, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -804,7 +804,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &552638371
 Transform:
   m_ObjectHideFlags: 0
@@ -943,11 +943,11 @@ GameObject:
   - component: {fileID: 740016892}
   m_Layer: 0
   m_Name: PlayerHand3
-  m_TagString: Untagged
+  m_TagString: pFieldTrans
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!212 &740016892
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1007,8 +1007,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 740016891}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.29, y: -3.46, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 1}
+  m_LocalPosition: {x: -1.5, y: -4, z: 0.03}
+  m_LocalScale: {x: 0.25, y: 0.25, z: 1}
   m_Children: []
   m_Father: {fileID: 1568513007}
   m_RootOrder: 3
@@ -1025,11 +1025,11 @@ GameObject:
   - component: {fileID: 819828948}
   m_Layer: 0
   m_Name: PlayerHand1
-  m_TagString: Untagged
+  m_TagString: pFieldTrans
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!212 &819828948
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1089,8 +1089,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 819828947}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.29, y: -3.46, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 1}
+  m_LocalPosition: {x: -4.5, y: -4, z: 0.03}
+  m_LocalScale: {x: 0.25, y: 0.25, z: 1}
   m_Children: []
   m_Father: {fileID: 1568513007}
   m_RootOrder: 1
@@ -1107,11 +1107,11 @@ GameObject:
   - component: {fileID: 939462127}
   m_Layer: 0
   m_Name: PlayerHand2
-  m_TagString: Untagged
+  m_TagString: pFieldTrans
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!212 &939462127
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1171,8 +1171,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 939462126}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.79, y: -3.46, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 1}
+  m_LocalPosition: {x: -3, y: -4, z: 0.03}
+  m_LocalScale: {x: 0.25, y: 0.25, z: 1}
   m_Children: []
   m_Father: {fileID: 1568513007}
   m_RootOrder: 2
@@ -1188,12 +1188,12 @@ GameObject:
   - component: {fileID: 939723081}
   - component: {fileID: 939723082}
   m_Layer: 0
-  m_Name: ComputerHand2
+  m_Name: ComputerHand7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &939723081
 Transform:
   m_ObjectHideFlags: 0
@@ -1202,7 +1202,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 939723080}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.0099998, y: 3.5, z: 0}
+  m_LocalPosition: {x: -4.5, y: 4, z: 0.03}
   m_LocalScale: {x: 0.3, y: 0.3, z: 1}
   m_Children: []
   m_Father: {fileID: 552638371}
@@ -1301,12 +1301,12 @@ GameObject:
   - component: {fileID: 1013459358}
   - component: {fileID: 1013459359}
   m_Layer: 0
-  m_Name: ComputerHand5
+  m_Name: ComputerHand4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1013459358
 Transform:
   m_ObjectHideFlags: 0
@@ -1315,7 +1315,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1013459357}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.42999983, y: 3.5, z: 0}
+  m_LocalPosition: {x: 0, y: 4, z: 0.03}
   m_LocalScale: {x: 0.3, y: 0.3, z: 1}
   m_Children: []
   m_Father: {fileID: 552638371}
@@ -1384,11 +1384,11 @@ GameObject:
   - component: {fileID: 1124629259}
   m_Layer: 0
   m_Name: PlayerHand5
-  m_TagString: Untagged
+  m_TagString: pFieldTrans
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!212 &1124629259
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1448,8 +1448,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1124629258}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.79, y: -3.46, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 1}
+  m_LocalPosition: {x: 1.5, y: -4, z: 0.03}
+  m_LocalScale: {x: 0.25, y: 0.25, z: 1}
   m_Children: []
   m_Father: {fileID: 1568513007}
   m_RootOrder: 5
@@ -1608,6 +1608,13 @@ MonoBehaviour:
   cPhysicalDeck: []
   pFieldCards: []
   cFieldCards: []
+  pFieldTransforms: []
+  cFieldTransforms: []
+  playerStartCardPos: {fileID: 0}
+  playerEndCardPos: {fileID: 0}
+  computerStartCardPos: {fileID: 0}
+  computerEndCardPos: {fileID: 0}
+  cardPassSpeed: 0
 --- !u!4 &1297653391
 Transform:
   m_ObjectHideFlags: 0
@@ -1649,6 +1656,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timer: 0
+  higher: {fileID: 0}
 --- !u!114 &1297653394
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1680,11 +1688,11 @@ GameObject:
   - component: {fileID: 1509935212}
   m_Layer: 0
   m_Name: PlayerHand4
-  m_TagString: Untagged
+  m_TagString: pFieldTrans
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!212 &1509935212
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1744,8 +1752,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1509935211}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.21000004, y: -3.46, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 1}
+  m_LocalPosition: {x: 0, y: -4, z: 0.03}
+  m_LocalScale: {x: 0.25, y: 0.25, z: 1}
   m_Children: []
   m_Father: {fileID: 1568513007}
   m_RootOrder: 4
@@ -1762,11 +1770,11 @@ GameObject:
   - component: {fileID: 1544404131}
   m_Layer: 0
   m_Name: PlayerHand0
-  m_TagString: Untagged
+  m_TagString: pFieldTrans
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!212 &1544404131
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1826,8 +1834,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1544404130}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.79, y: -3.46, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 1}
+  m_LocalPosition: {x: -6, y: -4, z: 0.03}
+  m_LocalScale: {x: 0.25, y: 0.25, z: 1}
   m_Children: []
   m_Father: {fileID: 1568513007}
   m_RootOrder: 0
@@ -1847,7 +1855,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1568513007
 Transform:
   m_ObjectHideFlags: 0
@@ -1883,12 +1891,12 @@ GameObject:
   - component: {fileID: 1599643989}
   - component: {fileID: 1599643990}
   m_Layer: 0
-  m_Name: ComputerHand6
+  m_Name: ComputerHand3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1599643989
 Transform:
   m_ObjectHideFlags: 0
@@ -1897,7 +1905,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1599643988}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.0700002, y: 3.5, z: 0}
+  m_LocalPosition: {x: 1.5, y: 4, z: 0.03}
   m_LocalScale: {x: 0.3, y: 0.3, z: 1}
   m_Children: []
   m_Father: {fileID: 552638371}
@@ -1965,12 +1973,12 @@ GameObject:
   - component: {fileID: 1626895694}
   - component: {fileID: 1626895695}
   m_Layer: 0
-  m_Name: ComputerHand3
+  m_Name: ComputerHand6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1626895694
 Transform:
   m_ObjectHideFlags: 0
@@ -1979,7 +1987,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1626895693}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.5099998, y: 3.5, z: 0}
+  m_LocalPosition: {x: -3, y: 4, z: 0.03}
   m_LocalScale: {x: 0.3, y: 0.3, z: 1}
   m_Children: []
   m_Father: {fileID: 552638371}
@@ -2061,7 +2069,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1651841863}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 8.7, y: 4, z: 0}
+  m_LocalPosition: {x: 9, y: 4, z: 3}
   m_LocalScale: {x: 0.25, y: 0.25, z: 1}
   m_Children: []
   m_Father: {fileID: 180169848}
@@ -2145,7 +2153,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1675809412}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -9, y: -4, z: 0}
+  m_LocalPosition: {x: -9, y: -4, z: 3}
   m_LocalScale: {x: 0.25, y: 0.25, z: 1}
   m_Children: []
   m_Father: {fileID: 946647038}
@@ -2326,12 +2334,12 @@ GameObject:
   - component: {fileID: 1802785527}
   - component: {fileID: 1802785528}
   m_Layer: 0
-  m_Name: ComputerHand4
+  m_Name: ComputerHand5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1802785527
 Transform:
   m_ObjectHideFlags: 0
@@ -2340,7 +2348,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1802785526}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.0099998, y: 3.5, z: 0}
+  m_LocalPosition: {x: -1.5, y: 4, z: 0.03}
   m_LocalScale: {x: 0.3, y: 0.3, z: 1}
   m_Children: []
   m_Father: {fileID: 552638371}
@@ -2408,12 +2416,12 @@ GameObject:
   - component: {fileID: 1803148594}
   - component: {fileID: 1803148595}
   m_Layer: 0
-  m_Name: ComputerHand7
+  m_Name: ComputerHand2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1803148594
 Transform:
   m_ObjectHideFlags: 0
@@ -2422,7 +2430,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1803148593}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.5700002, y: 3.5, z: 0}
+  m_LocalPosition: {x: 3, y: 4, z: 0.03}
   m_LocalScale: {x: 0.3, y: 0.3, z: 1}
   m_Children: []
   m_Father: {fileID: 552638371}
@@ -2491,11 +2499,11 @@ GameObject:
   - component: {fileID: 1820110589}
   m_Layer: 0
   m_Name: PlayerHand6
-  m_TagString: Untagged
+  m_TagString: pFieldTrans
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!212 &1820110589
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2555,8 +2563,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1820110588}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.29, y: -3.46, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 1}
+  m_LocalPosition: {x: 3, y: -4, z: 0.03}
+  m_LocalScale: {x: 0.25, y: 0.25, z: 1}
   m_Children: []
   m_Father: {fileID: 1568513007}
   m_RootOrder: 6
@@ -2572,12 +2580,12 @@ GameObject:
   - component: {fileID: 1951102370}
   - component: {fileID: 1951102371}
   m_Layer: 0
-  m_Name: ComputerHand9
+  m_Name: ComputerHand0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1951102370
 Transform:
   m_ObjectHideFlags: 0
@@ -2586,7 +2594,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1951102369}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5.57, y: 3.5, z: 0}
+  m_LocalPosition: {x: 6, y: 4, z: 0.03}
   m_LocalScale: {x: 0.3, y: 0.3, z: 1}
   m_Children: []
   m_Father: {fileID: 552638371}
@@ -2733,12 +2741,12 @@ GameObject:
   - component: {fileID: 1987100812}
   - component: {fileID: 1987100813}
   m_Layer: 0
-  m_Name: ComputerHand8
+  m_Name: ComputerHand1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1987100812
 Transform:
   m_ObjectHideFlags: 0
@@ -2747,7 +2755,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1987100811}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 4.07, y: 3.5, z: 0}
+  m_LocalPosition: {x: 4.5, y: 4, z: 0.03}
   m_LocalScale: {x: 0.3, y: 0.3, z: 1}
   m_Children: []
   m_Father: {fileID: 552638371}
@@ -3040,11 +3048,11 @@ GameObject:
   - component: {fileID: 2138948104}
   m_Layer: 0
   m_Name: PlayerHand7
-  m_TagString: Untagged
+  m_TagString: pFieldTrans
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!212 &2138948104
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3104,8 +3112,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2138948103}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.79, y: -3.46, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 1}
+  m_LocalPosition: {x: 4.5, y: -4, z: 0.03}
+  m_LocalScale: {x: 0.25, y: 0.25, z: 1}
   m_Children: []
   m_Father: {fileID: 1568513007}
   m_RootOrder: 7
