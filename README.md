@@ -54,6 +54,17 @@ surpass the point total of the opponent. After picking a card with a valid value
 2. The computer plays a card with insufficient value.
 3. The computer plays a special card (Sun or Wormhole) as their last card. This is considered a foul and will result in an instant loss for the offender.
 
+## Current WIPs
+
+### Animations
+I have most of the animations done currently (special thanks to the Unity plugin "iTween"). I plan to add cool animations for wormhole and sun card usage.
+
+### Sounds
+I still need to add sound and music to the game.
+
+### More Cards!!!
+Of course, the sun and wormhole cards will not be the only special cards in the game. I am still coming up with new ideas on the flow :)
+
 ## Asset Sources
 
 ### Sprites and Images
