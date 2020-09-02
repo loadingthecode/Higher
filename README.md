@@ -24,6 +24,8 @@ Sun cards are a special type of card that will turn over the most-recently playe
 opponent has 1 chance to revive the turned-down card with a Pluto card if they have one. However, if they play a regular planet or wormhole card instead, the turned-down
 card is now lost forever.
 
+If a Sun card is used on an already-facedown card, it will cause the playing field to implode, destroying all active middle cards and forcing a redraw.
+
 ### Wormhole Card
 Wormhole cards are a special type of card that will switch both the player and computer's scores. This card is particularly devastating when the opponent has a high point lead. 
 Be aware, however, that the opponent can also reply with a Wormhole of their own, switching the scores right back!
