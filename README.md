@@ -87,6 +87,11 @@ Tons of card game tutorials out there that helped shape my workflow and game str
 * [Creative Commons Fire Burst.wav by SilverIllusionist is licensed under CC BY 3.0](https://freesound.org/people/SilverIllusionist/sounds/472688/)
 * [Creative Commons Card Flip by f4ngy is licensed under CC BY 3.0](https://freesound.org/people/f4ngy/sounds/240776/)
 * [Creative Commons Dealing Card by f4ngy is licensed under CC BY 3.0](https://freesound.org/people/f4ngy/sounds/240777/)
+* [Creative Commons teleport.wav by Sergenious is licensed under CC BY 3.0](https://freesound.org/people/Sergenious/sounds/55853/)
+* [Creative Commons Ricochet 2.wav by morganpurkis is licensed under CC BY 3.0](https://freesound.org/people/morganpurkis/sounds/392975/)
+* [Creative Commons Single Water Drop III by MattiaGiovanetti is licensed under CC BY 3.0](https://freesound.org/people/MattiaGiovanetti/sounds/479451/)
+
+
 
 ### Music
 Killing Time by Kevin MacLeod<br/>
