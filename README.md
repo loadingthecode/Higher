@@ -84,3 +84,4 @@ Tons of card game tutorials out there that helped shape my workflow and game str
 
 ### Sounds and Music
 * https://freesound.org/
+* [Creative Commons Fire Burst.wav by SilverIllusionist is licensed under CC BY 3.0](https://freesound.org/people/SilverIllusionist/sounds/472688/)
