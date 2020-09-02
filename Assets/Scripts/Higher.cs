@@ -577,12 +577,18 @@ public class Higher : MonoBehaviour
         if (state == GameState.MOVECHECKER)
         {
             removePFieldCard(sunCard);
+            // responsible for movement of Sun card towards the target card
+            float burnedCardX = cMiddleCards[cMiddleCards.Count - 1].transform.position.x;
+            float burnedCardY = cMiddleCards[cMiddleCards.Count - 1].transform.position.y;
+            float burnedCardZ = cMiddleCards[cMiddleCards.Count - 1].transform.position.z;
+            iTween.MoveTo(sunCard, new Vector3(burnedCardX, burnedCardY, burnedCardZ), 0.75f);
             // if use a sun card on facedown card
             // create a super nova and destroy all cards in the middle
             // redraw cards
             if (cMiddleCards[cMiddleCards.Count - 1].GetComponent<Selectable>().faceUp == false)
             {
                 FindObjectOfType<AudioManager>().Play("Shielded");
+
                 print("hit a facedown card with a Suncard, supernova destroys everything. redrawing.");
                 Destroy(sunCard);
                 PlayerScoreKeeper.scoreValue = 0;
@@ -616,6 +622,11 @@ public class Higher : MonoBehaviour
         {
             
             removeCFieldCard(sunCard);
+            // responsible for movement of Sun card towards the target card
+            float burnedCardX = pMiddleCards[pMiddleCards.Count - 1].transform.position.x;
+            float burnedCardY = pMiddleCards[pMiddleCards.Count - 1].transform.position.y;
+            float burnedCardZ = pMiddleCards[pMiddleCards.Count - 1].transform.position.z;
+            iTween.MoveTo(sunCard, new Vector3(burnedCardX, burnedCardY, burnedCardZ), 0.75f);
 
             if (pMiddleCards[pMiddleCards.Count - 1].GetComponent<Selectable>().faceUp == false)
             {
@@ -653,6 +664,9 @@ public class Higher : MonoBehaviour
 
     public IEnumerator WormholeCard(GameObject wormHoleCard)
     {
+        // responsible for movement of wormhole card towards the center
+        iTween.MoveTo(wormHoleCard, new Vector3(0, 0, -10), 0.75f);
+
         FindObjectOfType<AudioManager>().Play("Wormhole");
         // switch the card positions
         for (int i = 0; i < pMiddleCards.Count; i++)
@@ -795,6 +809,12 @@ public class Higher : MonoBehaviour
         FindObjectOfType<AudioManager>().Play("Revive");
         if (state == GameState.MOVECHECKER)
         {
+            // responsible for movement of Revive card towards the burned card
+            float burnedCardX = pMiddleCards[pMiddleCards.Count - 1].transform.position.x;
+            float burnedCardY = pMiddleCards[pMiddleCards.Count - 1].transform.position.y;
+            float burnedCardZ = pMiddleCards[pMiddleCards.Count - 1].transform.position.z;
+            iTween.MoveTo(reviveCard, new Vector3(burnedCardX, burnedCardY, burnedCardZ), 0.75f);
+
             cardFlipper.StartFlip(pMiddleCards[pMiddleCards.Count - 1]);
             yield return new WaitForSeconds(0.5f);
             PlayerScoreKeeper.scoreValue += pMiddleCards[pMiddleCards.Count - 1].GetComponent<Selectable>().value;
@@ -805,6 +825,12 @@ public class Higher : MonoBehaviour
         }
         else if (state == GameState.COMPUTERTURN)
         {
+            // responsible for movement of Revive card towards the burned card
+            float burnedCardX = cMiddleCards[cMiddleCards.Count - 1].transform.position.x;
+            float burnedCardY = cMiddleCards[cMiddleCards.Count - 1].transform.position.y;
+            float burnedCardZ = cMiddleCards[cMiddleCards.Count - 1].transform.position.z;
+            iTween.MoveTo(reviveCard, new Vector3(burnedCardX, burnedCardY, burnedCardZ), 0.75f);
+
             cardFlipper.StartFlip(cMiddleCards[cMiddleCards.Count - 1]);
             yield return new WaitForSeconds(0.5f);
             ComputerScoreKeeper.scoreValue += cMiddleCards[cMiddleCards.Count - 1].GetComponent<Selectable>().value;
