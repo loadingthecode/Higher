@@ -95,6 +95,6 @@ Tons of card game tutorials out there that helped shape my workflow and game str
 
 
 ### Music
-Killing Time by Kevin MacLeod<br/>
-Link: https://incompetech.filmmusic.io/song/3953-killing-time<br/>
+Smooth Lovin by Kevin MacLeod<br>
+Link: https://incompetech.filmmusic.io/song/4379-smooth-lovin<br>
 License: http://creativecommons.org/licenses/by/4.0/
