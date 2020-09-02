@@ -66,6 +66,7 @@ public class Higher : MonoBehaviour
         audioManager = GetComponent<AudioManager>();
         uiButtons = GetComponent<UIButtons>();
         matchEndScreen = GetComponent<MatchEndScreen>();
+        FindObjectOfType<AudioManager>().Play("Music");
         Play();
     }
 
@@ -250,6 +251,8 @@ public class Higher : MonoBehaviour
 
             // speed of pass
             cardPassSpeed = 2f;
+
+            //FindObjectOfType<AudioManager>().Play("Dealing");
 
             // player deck start pos is -9, -4 -- computer deck start pos is 9, 4
             // instantiate pNewCards at -9, 4
@@ -654,14 +657,18 @@ public class Higher : MonoBehaviour
         // switch the card positions
         for (int i = 0; i < pMiddleCards.Count; i++)
         {
-            pMiddleCards[i].transform.position = new Vector3(-1 * (i + 2), 0, -1 * i); // selected card goes to middle card position.
-            pMiddleCards[i].transform.rotation = new Quaternion(0, 0, 180, 0);
+            iTween.RotateTo(pMiddleCards[i], new Vector3(0, 0, 180), 1.5f);
+            //yield return new WaitForSeconds(1f);
+            iTween.MoveTo(pMiddleCards[i], new Vector3(-1 * (i + 2), 0, -1 * i), 0.75f);
+            //pMiddleCards[i].transform.position = new Vector3(-1 * (i + 2), 0, -1 * i); // selected card goes to middle card position.
+            //pMiddleCards[i].transform.rotation = new Quaternion(0, 0, 180, 0);
         }
 
         for (int i = 0; i < cMiddleCards.Count; i++)
         {
-            cMiddleCards[i].transform.position = new Vector3(i + 2, 0, -1 * i); // selected card goes to middle card position.
-            cMiddleCards[i].transform.rotation = new Quaternion(0, 0, 0, 0);
+            iTween.RotateTo(cMiddleCards[i], new Vector3(0, 0, 0), 1.5f);
+            //yield return new WaitForSeconds(1f);
+            iTween.MoveTo(cMiddleCards[i], new Vector3(i + 2, 0, -1 * i), 0.75f);
         }
 
         // switch the list pointers

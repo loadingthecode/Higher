@@ -889,6 +889,11 @@ MonoBehaviour:
     volume: 1
     pitch: 1
     source: {fileID: 0}
+  - name: Music
+    clip: {fileID: 8300000, guid: 1cf7782301d955845a7686cc8740818f, type: 3}
+    volume: 0.126
+    pitch: 1
+    source: {fileID: 0}
 --- !u!4 &570898535
 Transform:
   m_ObjectHideFlags: 0

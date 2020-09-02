@@ -82,7 +82,7 @@ public class ComputerInput : MonoBehaviour
                 break;
             }
         }
-        print("Computer DID NOT find Pluto card.");
+        //print("Computer DID NOT find Pluto card.");
     }
 
     // defaultBehaviorA
