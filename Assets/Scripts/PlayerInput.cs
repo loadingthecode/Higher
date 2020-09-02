@@ -50,6 +50,7 @@ public class PlayerInput : MonoBehaviour
         // ONLY CLICKABLE DURING DRAWCARD STATE
         // if deck is clicked, flip the first card in player deck array over
         // bring it to the middle, then add its point value to player's score total
+        FindObjectOfType<AudioManager>().Play("FlipCard");
         print("Hit Deck");
         higher.Draw();
     }
@@ -57,12 +58,14 @@ public class PlayerInput : MonoBehaviour
     void Card(GameObject selected)
     {
         // ONLY CLICKABLE DURING PLAYER STATE
-        print("Hit a Card");
+        
 
         // first part is to ensure that selected card isn't null
         // second part is to ensure that the selected card isn't already in the middle
         if (selected.GetComponent<Selectable>().inMiddle == false)
         {
+            print("Hit a Card");
+            FindObjectOfType<AudioManager>().Play("SelectCard");
             print("Select card method entered.");
             selectedCard = selected;
             higher.SelectCard(selectedCard);

@@ -874,6 +874,21 @@ MonoBehaviour:
     volume: 0.791
     pitch: 1
     source: {fileID: 0}
+  - name: Wormhole
+    clip: {fileID: 8300000, guid: d766d99e8ab088841b09acc07281ce42, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+  - name: SelectCard
+    clip: {fileID: 8300000, guid: 44fe2b340b394b24c859b0b5b731e8e2, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+  - name: FlipCard
+    clip: {fileID: 8300000, guid: 0434dcb4ec09db34eac208746055fde0, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
 --- !u!4 &570898535
 Transform:
   m_ObjectHideFlags: 0

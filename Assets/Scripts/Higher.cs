@@ -338,6 +338,7 @@ public class Higher : MonoBehaviour
             ComputerScoreKeeper.scoreValue += cDrawnCardValue;
             print(cMiddleCards[0].name + " was drawn by the computer.");
 
+            FindObjectOfType<AudioManager>().Play("FlipCard");
             callDrawMotion(cMiddleCards[0]);
 
             yield return new WaitForSeconds(2.5f); // a delay between both draws to allow the player to understand what just happened
@@ -398,6 +399,7 @@ public class Higher : MonoBehaviour
                 if (pFieldCards.Count == 0)
                 {
                     print("Player scored lower and has no cards left in play. Game over.");
+                    MatchEndScreen.lossReason = LossReason.NOCARDS;
                     state = GameState.LOST;
                     callMatchEnd();
                 }
@@ -648,6 +650,7 @@ public class Higher : MonoBehaviour
 
     public IEnumerator WormholeCard(GameObject wormHoleCard)
     {
+        FindObjectOfType<AudioManager>().Play("Wormhole");
         // switch the card positions
         for (int i = 0; i < pMiddleCards.Count; i++)
         {

@@ -59,6 +59,7 @@ public class ComputerInput : MonoBehaviour
 
         higher.cFieldCards.RemoveAt(indexOfSelectedCard);// to ensure we don't accidentally point to null
         print("Computer chooses " + selectedCard);
+        FindObjectOfType<AudioManager>().Play("SelectCard");
         higher.SelectCard(selectedCard);
     }
 
