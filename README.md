@@ -8,7 +8,8 @@ series.
 
 Check out the Blade minigame here: https://youtu.be/IVmlHhTL7Bc?t=10
 
-**NOTE: All of the free assets used in this project that require attribution will have the appropriate attribution listed below.**
+**NOTE: All of the free assets used in this project that require attribution will have the appropriate attribution listed below as well as in the credits 
+page of the game (white button on the top left of the screen).**
 
 ## Types of Cards
 There are 3 main types of cards: Planet, Sun, and Wormhole. 
@@ -60,7 +61,7 @@ surpass the point total of the opponent. After picking a card with a valid value
 I have most of the animations done currently (special thanks to the Unity plugin "iTween"). I plan to add cool animations for wormhole and sun card usage.
 
 ### Sounds
-I still need to add sound and music to the game.
+Sounds mostly done. Can't find a good shuffling + dealing sound effect, though. Music attribution is listed below, but the choice of background music is still subject to change.
 
 ### More Cards!!!
 Of course, the sun and wormhole cards will not be the only special cards in the game. I am still coming up with new ideas on the flow :)
@@ -94,6 +95,6 @@ Tons of card game tutorials out there that helped shape my workflow and game str
 
 
 ### Music
-Killing Time by Kevin MacLeod<br/>
-Link: https://incompetech.filmmusic.io/song/3953-killing-time<br/>
+Smooth Lovin by Kevin MacLeod<br>
+Link: https://incompetech.filmmusic.io/song/4379-smooth-lovin<br>
 License: http://creativecommons.org/licenses/by/4.0/
