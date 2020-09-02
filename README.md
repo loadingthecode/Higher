@@ -60,7 +60,7 @@ surpass the point total of the opponent. After picking a card with a valid value
 I have most of the animations done currently (special thanks to the Unity plugin "iTween"). I plan to add cool animations for wormhole and sun card usage.
 
 ### Sounds
-I still need to add sound and music to the game.
+Sounds mostly done. Can't find a good shuffling + dealing sound effect, though. Music attribution is listed below, but the choice of background music is still subject to change.
 
 ### More Cards!!!
 Of course, the sun and wormhole cards will not be the only special cards in the game. I am still coming up with new ideas on the flow :)
