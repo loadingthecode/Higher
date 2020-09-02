@@ -864,6 +864,16 @@ MonoBehaviour:
     volume: 0.791
     pitch: 1
     source: {fileID: 0}
+  - name: Burn
+    clip: {fileID: 8300000, guid: 06e32247481962c43bf816ed15b52801, type: 3}
+    volume: 0.791
+    pitch: 1
+    source: {fileID: 0}
+  - name: Shielded
+    clip: {fileID: 8300000, guid: f2536722a3d934640aa33f90b3048b9a, type: 3}
+    volume: 0.791
+    pitch: 1
+    source: {fileID: 0}
 --- !u!4 &570898535
 Transform:
   m_ObjectHideFlags: 0

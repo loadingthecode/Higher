@@ -577,6 +577,7 @@ public class Higher : MonoBehaviour
             // redraw cards
             if (cMiddleCards[cMiddleCards.Count - 1].GetComponent<Selectable>().faceUp == false)
             {
+                FindObjectOfType<AudioManager>().Play("Shielded");
                 print("hit a facedown card with a Suncard, supernova destroys everything. redrawing.");
                 Destroy(sunCard);
                 PlayerScoreKeeper.scoreValue = 0;
@@ -585,6 +586,7 @@ public class Higher : MonoBehaviour
             } 
             else
             {
+                FindObjectOfType<AudioManager>().Play("Burn");
                 cardFlipper.StartFlip(cMiddleCards[cMiddleCards.Count - 1]);
                 yield return new WaitForSeconds(0.5f);
                 Math.Max(ComputerScoreKeeper.scoreValue -= cMiddleCards[cMiddleCards.Count - 1].GetComponent<Selectable>().value, 0);
@@ -607,11 +609,26 @@ public class Higher : MonoBehaviour
         } 
         else if (state == GameState.COMPUTERTURN)
         {
+            
             removeCFieldCard(sunCard);
-            cardFlipper.StartFlip(pMiddleCards[pMiddleCards.Count - 1]);
-            yield return new WaitForSeconds(0.5f);
-            Math.Max(PlayerScoreKeeper.scoreValue -= pMiddleCards[pMiddleCards.Count - 1].GetComponent<Selectable>().value, 0);
-            Destroy(sunCard); // special cards are used up, not stored in middle
+
+            if (pMiddleCards[pMiddleCards.Count - 1].GetComponent<Selectable>().faceUp == false)
+            {
+                FindObjectOfType<AudioManager>().Play("Shielded");
+                print("hit a facedown card with a Suncard, supernova destroys everything. redrawing.");
+                Destroy(sunCard);
+                PlayerScoreKeeper.scoreValue = 0;
+                ComputerScoreKeeper.scoreValue = 0;
+                RedrawCard();
+            }
+            else
+            {
+                FindObjectOfType<AudioManager>().Play("Burn");
+                cardFlipper.StartFlip(pMiddleCards[pMiddleCards.Count - 1]);
+                yield return new WaitForSeconds(0.5f);
+                Math.Max(PlayerScoreKeeper.scoreValue -= pMiddleCards[pMiddleCards.Count - 1].GetComponent<Selectable>().value, 0);
+                Destroy(sunCard); // special cards are used up, not stored in middle
+            }
 
             // if the computer plays a special card as their last card, they lose
             if (cFieldCards.Count == 0)
@@ -654,7 +671,7 @@ public class Higher : MonoBehaviour
         PlayerScoreKeeper.scoreValue = ComputerScoreKeeper.scoreValue;
         ComputerScoreKeeper.scoreValue = temp;
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.5f);
 
         if (state == GameState.MOVECHECKER)
         {
@@ -765,10 +782,10 @@ public class Higher : MonoBehaviour
 
     public IEnumerator ReviveCard(GameObject reviveCard)
     {
+        FindObjectOfType<AudioManager>().Play("Revive");
         if (state == GameState.MOVECHECKER)
         {
             cardFlipper.StartFlip(pMiddleCards[pMiddleCards.Count - 1]);
-            FindObjectOfType<AudioManager>().Play("Revive");
             yield return new WaitForSeconds(0.5f);
             PlayerScoreKeeper.scoreValue += pMiddleCards[pMiddleCards.Count - 1].GetComponent<Selectable>().value;
             removePFieldCard(reviveCard);
