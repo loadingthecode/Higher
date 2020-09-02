@@ -85,3 +85,5 @@ Tons of card game tutorials out there that helped shape my workflow and game str
 ### Sounds and Music
 * https://freesound.org/
 * [Creative Commons Fire Burst.wav by SilverIllusionist is licensed under CC BY 3.0](https://freesound.org/people/SilverIllusionist/sounds/472688/)
+* [Creative Commons Card Flip by f4ngy is licensed under CC BY 3.0](https://freesound.org/people/f4ngy/sounds/240776/)
+* [Creative Commons Dealing Card by f4ngy is licensed under CC BY 3.0](https://freesound.org/people/f4ngy/sounds/240777/)
