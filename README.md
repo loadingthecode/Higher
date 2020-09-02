@@ -8,7 +8,7 @@ series.
 
 Check out the Blade minigame here: https://youtu.be/IVmlHhTL7Bc?t=10
 
-NOTE: All of the assets used in this project are deemed free to use. 
+NOTE: All of the free assets used in this project that require attribution will have the appropriate attribution listed below.
 
 ## Types of Cards
 There are 3 main types of cards: Planet, Sun, and Wormhole. 
@@ -84,3 +84,4 @@ Tons of card game tutorials out there that helped shape my workflow and game str
 
 ### Sounds and Music
 * https://freesound.org/
+* [Creative Commons Fire Burst.wav by SilverIllusionist is licensed under CC BY 3.0](https://freesound.org/people/SilverIllusionist/sounds/472688/)
