@@ -477,8 +477,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 374.5, y: -222.85}
-  m_SizeDelta: {x: 654.8835, y: 118.604675}
+  m_AnchoredPosition: {x: 419.3, y: -240}
+  m_SizeDelta: {x: 744.59564, y: 153.01175}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1027686453
 MonoBehaviour:
@@ -522,7 +522,16 @@ MonoBehaviour:
     under CC BY 3.0
 
     Creative Commons Dealing Card by f4ngy is licensed under
-    CC BY 3.0'
+    CC BY 3.0
+
+    Creative Commons teleport.wav by Sergenious is licensed under
+    CC BY 3.0
+
+    Creative Commons Ricochet 2.wav by morganpurkis is licensed under
+    CC BY 3.0
+
+    Creative Commons Single Water Drop III by MattiaGiovanetti is
+    licensed under CC BY 3.0'
 --- !u!222 &1027686454
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -543,7 +552,7 @@ GameObject:
   - component: {fileID: 1104668811}
   - component: {fileID: 1104668810}
   m_Layer: 5
-  m_Name: IndividualSounds (1)
+  m_Name: SpritesLinks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1266,7 +1275,7 @@ GameObject:
   - component: {fileID: 1978485312}
   - component: {fileID: 1978485311}
   m_Layer: 5
-  m_Name: IndividualSounds (2)
+  m_Name: Creator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
