@@ -16,6 +16,12 @@ public class UIButtons : MonoBehaviour
         higher = GetComponent<Higher>();
         selectable = GetComponent<Selectable>();
     }
+    public void GoToCredits()
+    {
+        ComputerScoreKeeper.scoreValue = 0;
+        PlayerScoreKeeper.scoreValue = 0;
+        SceneManager.LoadScene("Credits");
+    }
 
     public void ResetScene()
     {
