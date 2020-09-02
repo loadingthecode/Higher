@@ -82,8 +82,13 @@ Tons of card game tutorials out there that helped shape my workflow and game str
 * https://pixabay.com/
 * https://www.fairway3games.com/free-poker-sized-card-templates/
 
-### Sounds and Music
+### Sounds
 * https://freesound.org/
 * [Creative Commons Fire Burst.wav by SilverIllusionist is licensed under CC BY 3.0](https://freesound.org/people/SilverIllusionist/sounds/472688/)
 * [Creative Commons Card Flip by f4ngy is licensed under CC BY 3.0](https://freesound.org/people/f4ngy/sounds/240776/)
 * [Creative Commons Dealing Card by f4ngy is licensed under CC BY 3.0](https://freesound.org/people/f4ngy/sounds/240777/)
+
+### Music
+Killing Time by Kevin MacLeod<br/>
+Link: https://incompetech.filmmusic.io/song/3953-killing-time<br/>
+License: http://creativecommons.org/licenses/by/4.0/
