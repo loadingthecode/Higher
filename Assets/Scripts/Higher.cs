@@ -341,7 +341,7 @@ public class Higher : MonoBehaviour
             ComputerScoreKeeper.scoreValue += cDrawnCardValue;
             print(cMiddleCards[0].name + " was drawn by the computer.");
 
-            FindObjectOfType<AudioManager>().Play("FlipCard");
+            
             callDrawMotion(cMiddleCards[0]);
 
             yield return new WaitForSeconds(2.5f); // a delay between both draws to allow the player to understand what just happened
@@ -361,14 +361,18 @@ public class Higher : MonoBehaviour
         card.GetComponent<Selectable>().faceUp = true;
         if (card.tag == "Card")
         {
+            FindObjectOfType<AudioManager>().Play("FlipCard");
             iTween.RotateFrom(card, new Vector3(0, 180, 0), 2.5f);
             yield return new WaitForSeconds(1f);
+            FindObjectOfType<AudioManager>().Play("SelectCard");
             iTween.MoveTo(card, new Vector3(2, 0, 0), 0.75f);
         } 
         else
         {
+            FindObjectOfType<AudioManager>().Play("FlipCard");
             iTween.RotateFrom(card, new Vector3(180, 0, 0), 2.5f);
             yield return new WaitForSeconds(1f);
+            FindObjectOfType<AudioManager>().Play("SelectCard");
             iTween.MoveTo(card, new Vector3(-2, 0, 0), 0.75f);
         }
     }

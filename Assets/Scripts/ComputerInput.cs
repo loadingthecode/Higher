@@ -45,12 +45,12 @@ public class ComputerInput : MonoBehaviour
         {
             int behaviorPick = Random.Range(0, 100);
             print("Computer was not hit b ya Sun card, so just going through normal algorithm.");
-            // defaultBehaviorA will include behaviorPick nums ranging from 0 - 49
-            if (behaviorPick >= 0 && behaviorPick <= 49)
+            // defaultBehaviorA
+            if (behaviorPick >= 0 && behaviorPick <= 79)
             {
                 findLeastBiggerCard();
             }
-            // defaultBehaviorB will include behaviorPick nums ranging from 50 - 99
+            // defaultBehaviorB
             else
             {
                 pickSpecialCard();
