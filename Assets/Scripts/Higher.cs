@@ -22,12 +22,18 @@ public class Higher : MonoBehaviour
 
     public Sprite[] cardFaces;
     public GameObject cardPrefab;
+
     public UpdateSprite updateSprite;
     public SpriteRenderer prevSpriteRenderer;
     public CardFlipper cardFlipper;
+
     public UIButtons uiButtons;
     public MatchEndScreen matchEndScreen;
+
     public AudioManager audioManager;
+
+    public ParticleSystem playerDeckIndicator;
+    public ParticleSystem computerDeckIndicator;
 
     public static string[] types = new string[] { "P", "S", "W" };
     public static string[] values = new string[] { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
@@ -60,6 +66,8 @@ public class Higher : MonoBehaviour
         MatchEndScreen.lossReason = LossReason.NA;
         pFieldTransforms = new Transform[10];
         cFieldTransforms = new Transform[10];
+        playerDeckIndicator = GetComponent<ParticleSystem>();
+        computerDeckIndicator = GameObject.Find("ComputerDeckIndicator").GetComponent<ParticleSystem>();
         prevSpriteRenderer = GetComponent<SpriteRenderer>();
         computerInput = GetComponent<ComputerInput>();
         cardFlipper = GetComponent<CardFlipper>();
@@ -73,7 +81,14 @@ public class Higher : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        //if (state == GameState.DRAWCARD)
+        //{
+        //    playerDeckIndicator.Emit(1);
+        //} 
+        //else
+        //{
+        //    playerDeckIndicator.Stop();
+        //}
     }
 
     public void Play()
@@ -106,6 +121,7 @@ public class Higher : MonoBehaviour
         yield return new WaitForSeconds(2f);
 
         state = GameState.DRAWCARD; // dealing phase ends, now both players enter card drawing state
+        startDeckIndicators(true);
     }
 
     public void populateField()
@@ -381,6 +397,7 @@ public class Higher : MonoBehaviour
     {
         if (state == GameState.MOVECHECKER)
         {
+            startDeckIndicators(false);
             if (PlayerScoreKeeper.scoreValue > ComputerScoreKeeper.scoreValue)
             {
                 // if the Computer draws the last card in his hand and goes to redrawing phase
@@ -909,18 +926,31 @@ public class Higher : MonoBehaviour
 
     public void RedrawCard()
     {
+        StopCoroutine(DoRedrawCard());
+        StartCoroutine(DoRedrawCard());
+    }
+
+    public IEnumerator DoRedrawCard()
+    {
         // reset scores in a draw
-        PlayerScoreKeeper.scoreValue = 0; 
+        PlayerScoreKeeper.scoreValue = 0;
         ComputerScoreKeeper.scoreValue = 0;
+
+        
+        FindObjectOfType<AudioManager>().Play("Draw");
 
         // getting rid of all the middle cards
         for (int i = 0; i < pMiddleCards.Count; i++)
         {
+            iTween.MoveTo(pMiddleCards[i], new Vector3(12, 0, 0), 1f);
+            yield return new WaitForSeconds(0.2f);
             Destroy(pMiddleCards[i]);
         }
 
         for (int i = 0; i < cMiddleCards.Count; i++)
         {
+            iTween.MoveTo(cMiddleCards[i], new Vector3(-12, 0, 0), 1f);
+            yield return new WaitForSeconds(0.2f);
             Destroy(cMiddleCards[i]);
         }
 
@@ -931,6 +961,22 @@ public class Higher : MonoBehaviour
         print("Player middle cards list now has " + pMiddleCards.Count + " cards.");
         print("Computer middle cards list now has " + cMiddleCards.Count + " cards.");
 
+        startDeckIndicators(true); // indicate draw state on deck with particle system emission
         state = GameState.DRAWCARD; // go back to draw state
+    }
+
+    public void startDeckIndicators(Boolean b)
+    {
+        if (b == true)
+        {
+            computerDeckIndicator.Play();
+            playerDeckIndicator.Play();
+            
+        }
+        else
+        {
+            playerDeckIndicator.Stop(false, ParticleSystemStopBehavior.StopEmittingAndClear); // stop emitting indicator outside of draw card state
+            computerDeckIndicator.Stop(false, ParticleSystemStopBehavior.StopEmittingAndClear);
+        }
     }
 }
