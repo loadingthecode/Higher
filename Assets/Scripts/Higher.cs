@@ -35,6 +35,8 @@ public class Higher : MonoBehaviour
     public ParticleSystem playerDeckIndicator;
     public ParticleSystem computerDeckIndicator;
 
+    public SFX sFX;
+
     public static string[] types = new string[] { "P", "S", "W" };
     public static string[] values = new string[] { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 
@@ -72,6 +74,7 @@ public class Higher : MonoBehaviour
         computerInput = GetComponent<ComputerInput>();
         cardFlipper = GetComponent<CardFlipper>();
         audioManager = GetComponent<AudioManager>();
+        sFX = FindObjectOfType<SFX>();
         uiButtons = GetComponent<UIButtons>();
         matchEndScreen = GetComponent<MatchEndScreen>();
         FindObjectOfType<AudioManager>().Play("Music");
@@ -619,7 +622,8 @@ public class Higher : MonoBehaviour
             else
             {
                 FindObjectOfType<AudioManager>().Play("Burn");
-                cardFlipper.StartFlip(cMiddleCards[cMiddleCards.Count - 1]);
+                sFX.dissolveCard(cMiddleCards[cMiddleCards.Count - 1]);
+                //cardFlipper.StartFlip(cMiddleCards[cMiddleCards.Count - 1]);
                 yield return new WaitForSeconds(0.5f);
                 Math.Max(ComputerScoreKeeper.scoreValue -= cMiddleCards[cMiddleCards.Count - 1].GetComponent<Selectable>().value, 0);
                 Destroy(sunCard);
@@ -676,9 +680,8 @@ public class Higher : MonoBehaviour
             }
             else
             {
-                checkSelectableCards();
-                state = GameState.PLAYERTURN;
                 yield return new WaitForSeconds(1f);
+                checkSelectableCards();
             }
         }
     }
@@ -942,14 +945,14 @@ public class Higher : MonoBehaviour
         // getting rid of all the middle cards
         for (int i = 0; i < pMiddleCards.Count; i++)
         {
-            iTween.MoveTo(pMiddleCards[i], new Vector3(12, 0, 0), 1f);
+            iTween.MoveTo(pMiddleCards[i], new Vector3(12, 0, 0), 0.75f);
             yield return new WaitForSeconds(0.2f);
             Destroy(pMiddleCards[i]);
         }
 
         for (int i = 0; i < cMiddleCards.Count; i++)
         {
-            iTween.MoveTo(cMiddleCards[i], new Vector3(-12, 0, 0), 1f);
+            iTween.MoveTo(cMiddleCards[i], new Vector3(-12, 0, 0), 0.75f);
             yield return new WaitForSeconds(0.2f);
             Destroy(cMiddleCards[i]);
         }
