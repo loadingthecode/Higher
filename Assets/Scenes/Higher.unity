@@ -1961,6 +1961,7 @@ MonoBehaviour:
   audioManager: {fileID: 0}
   playerDeckIndicator: {fileID: 1297653396}
   computerDeckIndicator: {fileID: 1517532952}
+  sFX: {fileID: 0}
   pDeck: []
   cDeck: []
   pField: []

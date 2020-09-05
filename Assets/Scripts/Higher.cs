@@ -623,7 +623,7 @@ public class Higher : MonoBehaviour
             {
                 FindObjectOfType<AudioManager>().Play("Burn");
                 sFX.dissolveCard(cMiddleCards[cMiddleCards.Count - 1]);
-                //cardFlipper.StartFlip(cMiddleCards[cMiddleCards.Count - 1]);
+                cardFlipper.StartFlip(cMiddleCards[cMiddleCards.Count - 1]);
                 yield return new WaitForSeconds(0.5f);
                 Math.Max(ComputerScoreKeeper.scoreValue -= cMiddleCards[cMiddleCards.Count - 1].GetComponent<Selectable>().value, 0);
                 Destroy(sunCard);
@@ -665,6 +665,7 @@ public class Higher : MonoBehaviour
             else
             {
                 FindObjectOfType<AudioManager>().Play("Burn");
+                sFX.dissolveCard(pMiddleCards[pMiddleCards.Count - 1]);
                 cardFlipper.StartFlip(pMiddleCards[pMiddleCards.Count - 1]);
                 yield return new WaitForSeconds(0.5f);
                 Math.Max(PlayerScoreKeeper.scoreValue -= pMiddleCards[pMiddleCards.Count - 1].GetComponent<Selectable>().value, 0);
@@ -839,6 +840,7 @@ public class Higher : MonoBehaviour
             float burnedCardZ = pMiddleCards[pMiddleCards.Count - 1].transform.position.z;
             iTween.MoveTo(reviveCard, new Vector3(burnedCardX, burnedCardY, burnedCardZ), 0.75f);
 
+            sFX.restoreCard(pMiddleCards[pMiddleCards.Count - 1]);
             cardFlipper.StartFlip(pMiddleCards[pMiddleCards.Count - 1]);
             yield return new WaitForSeconds(0.5f);
             PlayerScoreKeeper.scoreValue += pMiddleCards[pMiddleCards.Count - 1].GetComponent<Selectable>().value;
@@ -855,6 +857,7 @@ public class Higher : MonoBehaviour
             float burnedCardZ = cMiddleCards[cMiddleCards.Count - 1].transform.position.z;
             iTween.MoveTo(reviveCard, new Vector3(burnedCardX, burnedCardY, burnedCardZ), 0.75f);
 
+            sFX.restoreCard(cMiddleCards[cMiddleCards.Count - 1]);
             cardFlipper.StartFlip(cMiddleCards[cMiddleCards.Count - 1]);
             yield return new WaitForSeconds(0.5f);
             ComputerScoreKeeper.scoreValue += cMiddleCards[cMiddleCards.Count - 1].GetComponent<Selectable>().value;
