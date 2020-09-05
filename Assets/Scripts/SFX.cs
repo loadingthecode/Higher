@@ -39,7 +39,7 @@ public class SFX : MonoBehaviour
 
         while (fade >= 0.60f && isDissolving == true)
         {
-            yield return new WaitForSeconds(0.002f);
+            yield return new WaitForSeconds(0.005f);
             fade -= Time.deltaTime;
 
             if (fade <= 0.60f)

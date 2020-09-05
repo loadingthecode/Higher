@@ -46,7 +46,7 @@ public class ComputerInput : MonoBehaviour
             int behaviorPick = Random.Range(0, 100);
             print("Computer was not hit b ya Sun card, so just going through normal algorithm.");
             // defaultBehaviorA
-            if (behaviorPick >= 0 && behaviorPick <= 79)
+            if (behaviorPick >= 0 && behaviorPick <= 49)
             {
                 findLeastBiggerCard();
             }
