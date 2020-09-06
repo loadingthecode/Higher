@@ -23,6 +23,8 @@ public class Higher : MonoBehaviour
     public Sprite[] cardFaces;
     public GameObject cardPrefab;
 
+    public GameObject firePrefab;
+
     public UpdateSprite updateSprite;
     public SpriteRenderer prevSpriteRenderer;
     public CardFlipper cardFlipper;
@@ -621,6 +623,7 @@ public class Higher : MonoBehaviour
             } 
             else
             {
+                GameObject newFire = Instantiate(firePrefab, new Vector3(burnedCardX, burnedCardY, 0), firePrefab.transform.rotation);
                 FindObjectOfType<AudioManager>().Play("Burn");
                 sFX.dissolveCard(cMiddleCards[cMiddleCards.Count - 1]);
                 cardFlipper.StartFlip(cMiddleCards[cMiddleCards.Count - 1]);
@@ -664,6 +667,7 @@ public class Higher : MonoBehaviour
             }
             else
             {
+                GameObject newFire = Instantiate(firePrefab, new Vector3(burnedCardX, burnedCardY, 0), firePrefab.transform.rotation);
                 FindObjectOfType<AudioManager>().Play("Burn");
                 sFX.dissolveCard(pMiddleCards[pMiddleCards.Count - 1]);
                 cardFlipper.StartFlip(pMiddleCards[pMiddleCards.Count - 1]);
@@ -839,6 +843,7 @@ public class Higher : MonoBehaviour
             float burnedCardY = pMiddleCards[pMiddleCards.Count - 1].transform.position.y;
             float burnedCardZ = pMiddleCards[pMiddleCards.Count - 1].transform.position.z;
             iTween.MoveTo(reviveCard, new Vector3(burnedCardX, burnedCardY, burnedCardZ), 0.75f);
+
 
             sFX.restoreCard(pMiddleCards[pMiddleCards.Count - 1]);
             cardFlipper.StartFlip(pMiddleCards[pMiddleCards.Count - 1]);
