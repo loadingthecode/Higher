@@ -608,6 +608,9 @@ public class Higher : MonoBehaviour
             float burnedCardY = cMiddleCards[cMiddleCards.Count - 1].transform.position.y;
             float burnedCardZ = cMiddleCards[cMiddleCards.Count - 1].transform.position.z;
             iTween.MoveTo(sunCard, new Vector3(burnedCardX, burnedCardY, burnedCardZ), 0.75f);
+            yield return new WaitForSeconds(0.50f);
+            Destroy(sunCard);
+            //yield return new WaitForSeconds(0.50f);
             // if use a sun card on facedown card
             // create a super nova and destroy all cards in the middle
             // redraw cards
@@ -623,13 +626,18 @@ public class Higher : MonoBehaviour
             } 
             else
             {
-                GameObject newFire = Instantiate(firePrefab, new Vector3(burnedCardX, burnedCardY, 0), firePrefab.transform.rotation);
+                //computerFire.GetComponent<ParticleSystem>().Play();
+                //iTween.MoveTo(computerFire, new Vector3(burnedCardX, burnedCardY, 0), 0.01f);
+                //computerFire.transform.parent = cMiddleCards[cMiddleCards.Count - 1].transform;
                 FindObjectOfType<AudioManager>().Play("Burn");
+                GameObject newComputerSideFire = Instantiate(firePrefab, new Vector3(burnedCardX, burnedCardY - 1, -5), firePrefab.transform.rotation);
+                yield return new WaitForSeconds(0.75f);
+                newComputerSideFire.GetComponent<ParticleSystem>().Stop(true, ParticleSystemStopBehavior.StopEmitting);
                 sFX.dissolveCard(cMiddleCards[cMiddleCards.Count - 1]);
                 cardFlipper.StartFlip(cMiddleCards[cMiddleCards.Count - 1]);
                 yield return new WaitForSeconds(0.5f);
                 Math.Max(ComputerScoreKeeper.scoreValue -= cMiddleCards[cMiddleCards.Count - 1].GetComponent<Selectable>().value, 0);
-                Destroy(sunCard);
+                
             }
              // special cards are used up, not stored in middle
             // if the computer plays a special card as their last card, they lose
@@ -655,6 +663,9 @@ public class Higher : MonoBehaviour
             float burnedCardY = pMiddleCards[pMiddleCards.Count - 1].transform.position.y;
             float burnedCardZ = pMiddleCards[pMiddleCards.Count - 1].transform.position.z;
             iTween.MoveTo(sunCard, new Vector3(burnedCardX, burnedCardY, burnedCardZ), 0.75f);
+            yield return new WaitForSeconds(0.50f);
+            Destroy(sunCard); // special cards are used up, not stored in middle
+            
 
             if (pMiddleCards[pMiddleCards.Count - 1].GetComponent<Selectable>().faceUp == false)
             {
@@ -667,13 +678,17 @@ public class Higher : MonoBehaviour
             }
             else
             {
-                GameObject newFire = Instantiate(firePrefab, new Vector3(burnedCardX, burnedCardY, 0), firePrefab.transform.rotation);
+                //playerFire.GetComponent<ParticleSystem>().Play();
+                //iTween.MoveTo(playerFire, new Vector3(burnedCardX, burnedCardY, 0), 0.01f);
+                //playerFire.transform.parent = pMiddleCards[pMiddleCards.Count - 1].transform;
                 FindObjectOfType<AudioManager>().Play("Burn");
+                GameObject newPlayerSideFire = Instantiate(firePrefab, new Vector3(burnedCardX, burnedCardY - 1, -5), firePrefab.transform.rotation);
+                yield return new WaitForSeconds(0.75f);
+                newPlayerSideFire.GetComponent<ParticleSystem>().Stop(true, ParticleSystemStopBehavior.StopEmitting);
                 sFX.dissolveCard(pMiddleCards[pMiddleCards.Count - 1]);
                 cardFlipper.StartFlip(pMiddleCards[pMiddleCards.Count - 1]);
                 yield return new WaitForSeconds(0.5f);
                 Math.Max(PlayerScoreKeeper.scoreValue -= pMiddleCards[pMiddleCards.Count - 1].GetComponent<Selectable>().value, 0);
-                Destroy(sunCard); // special cards are used up, not stored in middle
             }
 
             // if the computer plays a special card as their last card, they lose
@@ -770,6 +785,13 @@ public class Higher : MonoBehaviour
     {
         if (state == GameState.MOVECHECKER)
         {
+            // check if the previous card in hand was burned by a Sun card
+            // if so, put out the fire indicating that card is now unrecoverable
+            //if (pMiddleCards[pMiddleCards.Count - 1].GetComponent<Selectable>().faceUp == false)
+            //{
+            //    playerFire.GetComponent<ParticleSystem>().Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+            //}
+
             if ((PlayerScoreKeeper.scoreValue + planetCard.GetComponent<Selectable>().value) > ComputerScoreKeeper.scoreValue)
             {
                 print("Player has played a card that allows his score to surpass the computer's.");
@@ -802,6 +824,14 @@ public class Higher : MonoBehaviour
         }
         else if (state == GameState.COMPUTERTURN)
         {
+            // check if the previous card in hand was burned by a Sun card
+            // if so, put out the fire indicating that card is now unrecoverable
+            //if (cMiddleCards[cMiddleCards.Count - 1].GetComponent<Selectable>().faceUp == false)
+            //{
+            //    print(cMiddleCards[cMiddleCards.Count - 1].GetComponent<Selectable>().faceUp);
+            //    computerFire.GetComponent<ParticleSystem>().Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+            //}
+
             if ((ComputerScoreKeeper.scoreValue + planetCard.GetComponent<Selectable>().value) > PlayerScoreKeeper.scoreValue)
             {
                 print("Computer has played a card that allows his score to surpass the player's.");

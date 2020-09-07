@@ -1978,6 +1978,9 @@ MonoBehaviour:
   cPhysicalDeck: []
   pFieldCards: []
   cFieldCards: []
+  playerFire: {fileID: 0}
+  computerFire: {fileID: 0}
+  fires: []
   pFieldTransforms: []
   cFieldTransforms: []
   playerStartCardPos: {fileID: 0}
@@ -13147,13 +13150,45 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1210953344262826339, guid: b8f57a7e9fab9b14281b5b9dc9e3cfe6, type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1210953344262826339, guid: b8f57a7e9fab9b14281b5b9dc9e3cfe6, type: 3}
+      propertyPath: ShapeModule.type
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1210953344262826339, guid: b8f57a7e9fab9b14281b5b9dc9e3cfe6, type: 3}
+      propertyPath: ShapeModule.angle
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1210953344262826339, guid: b8f57a7e9fab9b14281b5b9dc9e3cfe6, type: 3}
+      propertyPath: ShapeModule.radius.value
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1210953344262826339, guid: b8f57a7e9fab9b14281b5b9dc9e3cfe6, type: 3}
+      propertyPath: ShapeModule.radiusThickness
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1210953344262826339, guid: b8f57a7e9fab9b14281b5b9dc9e3cfe6, type: 3}
+      propertyPath: InitialModule.startSpeed.scalar
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1210953344881443708, guid: b8f57a7e9fab9b14281b5b9dc9e3cfe6, type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1210953344881443708, guid: b8f57a7e9fab9b14281b5b9dc9e3cfe6, type: 3}
+      propertyPath: InitialModule.startSpeed.scalar
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 1210953345176721628, guid: b8f57a7e9fab9b14281b5b9dc9e3cfe6, type: 3}
       propertyPath: m_LocalPosition.x
       value: -20
       objectReference: {fileID: 0}
     - target: {fileID: 1210953345176721628, guid: b8f57a7e9fab9b14281b5b9dc9e3cfe6, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -5
       objectReference: {fileID: 0}
     - target: {fileID: 1210953345176721628, guid: b8f57a7e9fab9b14281b5b9dc9e3cfe6, type: 3}
       propertyPath: m_LocalPosition.z
@@ -13194,6 +13229,26 @@ PrefabInstance:
     - target: {fileID: 1210953345176721631, guid: b8f57a7e9fab9b14281b5b9dc9e3cfe6, type: 3}
       propertyPath: m_Name
       value: PS_Fire_Parent
+      objectReference: {fileID: 0}
+    - target: {fileID: 1210953345291014956, guid: b8f57a7e9fab9b14281b5b9dc9e3cfe6, type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1210953345291014956, guid: b8f57a7e9fab9b14281b5b9dc9e3cfe6, type: 3}
+      propertyPath: ShapeModule.radius.value
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1210953345291014956, guid: b8f57a7e9fab9b14281b5b9dc9e3cfe6, type: 3}
+      propertyPath: InitialModule.startSpeed.scalar
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1210953345800664243, guid: b8f57a7e9fab9b14281b5b9dc9e3cfe6, type: 3}
+      propertyPath: InitialModule.startSize.minScalar
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1210953345800664243, guid: b8f57a7e9fab9b14281b5b9dc9e3cfe6, type: 3}
+      propertyPath: InitialModule.startSpeed.scalar
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b8f57a7e9fab9b14281b5b9dc9e3cfe6, type: 3}
