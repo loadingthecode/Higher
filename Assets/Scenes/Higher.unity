@@ -897,7 +897,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sounds:
   - name: Revive
-    clip: {fileID: 8300000, guid: f60b9d7ac768e2d4cb716e5bbe2c97f2, type: 3}
+    clip: {fileID: 8300000, guid: 84663da4a0eccab469d9bcc90d800f4a, type: 3}
     volume: 0.791
     pitch: 1
     source: {fileID: 0}
@@ -13325,7 +13325,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6447800744047414578, guid: dcd0f06a491edd84896e39050850fa49, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -15
+      value: -30
       objectReference: {fileID: 0}
     - target: {fileID: 6447800744047414578, guid: dcd0f06a491edd84896e39050850fa49, type: 3}
       propertyPath: m_LocalPosition.y
@@ -13367,6 +13367,54 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6447800744047414579, guid: dcd0f06a491edd84896e39050850fa49, type: 3}
+      propertyPath: TrailModule.enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6447800744047414579, guid: dcd0f06a491edd84896e39050850fa49, type: 3}
+      propertyPath: InitialModule.maxNumParticles
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 6447800744047414579, guid: dcd0f06a491edd84896e39050850fa49, type: 3}
+      propertyPath: InitialModule.gravityModifier.scalar
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 6447800744047414579, guid: dcd0f06a491edd84896e39050850fa49, type: 3}
+      propertyPath: InitialModule.startSpeed.scalar
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6447800744047414579, guid: dcd0f06a491edd84896e39050850fa49, type: 3}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6447800744047414579, guid: dcd0f06a491edd84896e39050850fa49, type: 3}
+      propertyPath: ShapeModule.type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6447800744047414579, guid: dcd0f06a491edd84896e39050850fa49, type: 3}
+      propertyPath: ShapeModule.arc.spread
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6447800744047414579, guid: dcd0f06a491edd84896e39050850fa49, type: 3}
+      propertyPath: ShapeModule.radius.value
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6447800744047414579, guid: dcd0f06a491edd84896e39050850fa49, type: 3}
+      propertyPath: lengthInSec
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6447800744047414579, guid: dcd0f06a491edd84896e39050850fa49, type: 3}
+      propertyPath: ShapeModule.radiusThickness
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6447800744047414580, guid: dcd0f06a491edd84896e39050850fa49, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6447800744047414580, guid: dcd0f06a491edd84896e39050850fa49, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 2546eebaf3afea94381da3395593cdc0, type: 2}
     - target: {fileID: 6447800744047414581, guid: dcd0f06a491edd84896e39050850fa49, type: 3}
       propertyPath: m_Name
       value: PS_Water

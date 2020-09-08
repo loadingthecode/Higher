@@ -875,7 +875,7 @@ public class Higher : MonoBehaviour
             float burnedCardZ = pMiddleCards[pMiddleCards.Count - 1].transform.position.z;
             iTween.MoveTo(reviveCard, new Vector3(burnedCardX, burnedCardY, burnedCardZ), 0.75f);
 
-            GameObject newPlayerSideWater = Instantiate(waterPrefab, new Vector3(burnedCardX, burnedCardY - 1, -5), waterPrefab.transform.rotation);
+            GameObject newPlayerSideWater = Instantiate(waterPrefab, new Vector3(burnedCardX, burnedCardY, -5), waterPrefab.transform.rotation);
             yield return new WaitForSeconds(0.75f);
             newPlayerSideWater.GetComponent<ParticleSystem>().Stop(true, ParticleSystemStopBehavior.StopEmitting);
 
@@ -896,7 +896,7 @@ public class Higher : MonoBehaviour
             float burnedCardZ = cMiddleCards[cMiddleCards.Count - 1].transform.position.z;
             iTween.MoveTo(reviveCard, new Vector3(burnedCardX, burnedCardY, burnedCardZ), 0.75f);
 
-            GameObject newComputerSideWater = Instantiate(waterPrefab, new Vector3(burnedCardX, burnedCardY - 1, -5), waterPrefab.transform.rotation);
+            GameObject newComputerSideWater = Instantiate(waterPrefab, new Vector3(burnedCardX, burnedCardY, -5), waterPrefab.transform.rotation);
             yield return new WaitForSeconds(0.75f);
             newComputerSideWater.GetComponent<ParticleSystem>().Stop(true, ParticleSystemStopBehavior.StopEmitting);
 
