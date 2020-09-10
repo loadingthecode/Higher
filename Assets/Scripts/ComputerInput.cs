@@ -109,22 +109,28 @@ public class ComputerInput : MonoBehaviour
 
         for (int i = 0; i < higher.cFieldCards.Count; i++)
         {
-            int scoreDifference = ComputerScoreKeeper.scoreValue + higher.cFieldCards[i].GetComponent<Selectable>().value - PlayerScoreKeeper.scoreValue;
-            if (higher.cFieldCards[i].GetComponent<Selectable>().type == "P")
+            int scoreDifference = 0;
+            if (higher.cFieldCards[i].GetComponent<Selectable>().type == "X")
             {
-                if (scoreDifference < leastBiggerVal && scoreDifference > 0)
-                {
-                    leastBiggerVal = scoreDifference;
-                    leastBiggerCard = higher.cFieldCards[i];
-                    indexOfSelectedCard = i;
-                }
-                else if (scoreDifference == 0)
-                {
-                    equalizerFound = true;
-                    anEqualizerCard = higher.cFieldCards[i];
-                    indexOfEqualizer = i;
-                }
+                scoreDifference = (ComputerScoreKeeper.scoreValue * 2) - PlayerScoreKeeper.scoreValue;
+            } 
+            else if (higher.cFieldCards[i].GetComponent<Selectable>().type == "P")
+            {
+                scoreDifference = ComputerScoreKeeper.scoreValue + higher.cFieldCards[i].GetComponent<Selectable>().value - PlayerScoreKeeper.scoreValue;
+            }          
+            
+            if (scoreDifference < leastBiggerVal && scoreDifference > 0)
+            {
+                leastBiggerVal = scoreDifference;
+                leastBiggerCard = higher.cFieldCards[i];
+                indexOfSelectedCard = i;
             }
+            else if (scoreDifference == 0)
+            {
+                equalizerFound = true;
+                anEqualizerCard = higher.cFieldCards[i];
+                indexOfEqualizer = i;
+            }  
         }
 
         // if leastBiggerVal didn't change (meaning no valid leastBigger card was found)
@@ -174,7 +180,7 @@ public class ComputerInput : MonoBehaviour
         for (int i = 0; i < higher.cFieldCards.Count; i++)
         {
             string cardType = higher.cFieldCards[i].GetComponent<Selectable>().type;
-            if ( cardType == "S" || cardType == "W")
+            if ( cardType == "S" || cardType == "W" || cardType == "X")
             {
                 specialCard = higher.cFieldCards[i];
                 indexOfSelectedCard = i;
@@ -182,7 +188,9 @@ public class ComputerInput : MonoBehaviour
             }
         }
 
-        if (specialCard != this.gameObject && (specialCard.GetComponent<Selectable>().type == "S" || specialCard.GetComponent<Selectable>().type == "W"))
+        if (specialCard != this.gameObject && (specialCard.GetComponent<Selectable>().type == "S" 
+            || specialCard.GetComponent<Selectable>().type == "W"
+            || specialCard.GetComponent<Selectable>().type == "X"))
         {
             selectedCard = specialCard;
         }

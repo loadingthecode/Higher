@@ -92,7 +92,13 @@ public class UpdateSprite : MonoBehaviour
                 cardFace = higher.cardFaces[10];
                 break;
             }
-            
+
+            if (this.name == "X1")
+            {
+                cardFace = higher.cardFaces[11];
+                break;
+            }
+
             i++;
         }
         selectable = GetComponent<Selectable>();

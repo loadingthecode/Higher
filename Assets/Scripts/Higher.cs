@@ -40,7 +40,7 @@ public class Higher : MonoBehaviour
 
     public SFX sFX;
 
-    public static string[] types = new string[] { "P", "S", "W" };
+    public static string[] types = new string[] { "P", "S", "W", "X" };
     public static string[] values = new string[] { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 
     public List<string> pDeck;
@@ -214,6 +214,11 @@ public class Higher : MonoBehaviour
         {
             newDeck.Add(types[2] + values[0]); // adding 3 wormholes (1) to the deck
         }
+
+        for (int i = 0; i < 3; i++)
+        {
+            newDeck.Add(types[3] + values[0]); // adding 3 planet x's (1) to the deck
+        }
         return newDeck;
     }
 
@@ -298,7 +303,7 @@ public class Higher : MonoBehaviour
             yield return new WaitForSeconds(0.1f); // spawns cards one-by-one visually
         }
         // for decks
-        for (int i = 0; i < 22; i++)
+        for (int i = 0; i < 25; i++)
         {
             GameObject pNewCard;
             GameObject cNewCard;
@@ -523,6 +528,11 @@ public class Higher : MonoBehaviour
 
                 UseWormholeCard(selected);
             }
+            else if (selected.GetComponent<Selectable>().type == "X")
+            {
+                print("Player has played a Planet X card. Doubling score.");
+                UsePlanetXCard(selected);
+            }
             else if (selected.GetComponent<Selectable>().value == 1 && selected.GetComponent<Selectable>().type == "P" 
                 && pMiddleCards[pMiddleCards.Count - 1].GetComponent<Selectable>().faceUp == false)
             {
@@ -554,6 +564,11 @@ public class Higher : MonoBehaviour
                 print("Computer has switched their score with the player's using a Wormhole card.");
 
                 UseWormholeCard(selected);
+            }
+            else if (selected.GetComponent<Selectable>().type == "X")
+            {
+                print("Computer has played a Planet X card. Doubling score.");
+                UsePlanetXCard(selected);
             }
             else if (selected.GetComponent<Selectable>().value == 1 && selected.GetComponent<Selectable>().type == "P"
                 && cMiddleCards[cMiddleCards.Count - 1].GetComponent<Selectable>().faceUp == false)
@@ -596,6 +611,100 @@ public class Higher : MonoBehaviour
     {
         StopCoroutine(ReviveCard(reviveCard));
         StartCoroutine(ReviveCard(reviveCard));
+    }
+
+    // method to select a Planet X card
+    public void UsePlanetXCard(GameObject planetXCard)
+    {
+        StopCoroutine(PlanetXCard(planetXCard));
+        StartCoroutine(PlanetXCard(planetXCard));
+    }
+
+    public IEnumerator PlanetXCard (GameObject planetXCard)
+    {
+        if (state == GameState.MOVECHECKER)
+        {
+            // add card to pile
+            // double current score
+            // if even after doubling it does not surpass enemy
+            // you lose still
+
+            // we can set the value of the planetXCard to the player's score
+            // since it's just adding the player's score to itself (aka multiply by 2)
+            // this will make it so that if the card gets Sunned, it will subtract the
+            // specific planetXCard value from the point total
+            planetXCard.GetComponent<Selectable>().value = PlayerScoreKeeper.scoreValue;
+
+            if ((PlayerScoreKeeper.scoreValue * 2) > ComputerScoreKeeper.scoreValue)
+            {
+                print("Player has played a planet X and surpassed computer's score.");
+                PlayerScoreKeeper.scoreValue *= 2;
+                AddMiddle(planetXCard);
+                removePFieldCard(planetXCard);
+                yield return new WaitForSeconds(1f);
+                checkSelectableCards();
+            }
+            else if ((PlayerScoreKeeper.scoreValue * 2) < ComputerScoreKeeper.scoreValue)
+            {
+                print("Even after using Planet X card, the value is not enough. Game over.");
+                PlayerScoreKeeper.scoreValue *= 2;
+                AddMiddle(planetXCard);
+                removePFieldCard(planetXCard);
+                state = GameState.LOST;
+                MatchEndScreen.lossReason = LossReason.INSUFFICIENTVALUE;
+                callMatchEnd();
+            }
+            else // player has picked a card that equalizes their total with the computer's total score
+            {
+                print("Player has played a card that equalizes their total with the computer's total score. Redrawing.");
+                PlayerScoreKeeper.scoreValue *= 2;
+                AddMiddle(planetXCard);
+                removePFieldCard(planetXCard);
+                yield return new WaitForSeconds(1f); // wait for player to catch up on what's happening
+                RedrawCard();
+            }
+        }
+
+        else if (state == GameState.COMPUTERTURN)
+        {
+            // check if the previous card in hand was burned by a Sun card
+            // if so, put out the fire indicating that card is now unrecoverable
+            //if (cMiddleCards[cMiddleCards.Count - 1].GetComponent<Selectable>().faceUp == false)
+            //{
+            //    print(cMiddleCards[cMiddleCards.Count - 1].GetComponent<Selectable>().faceUp);
+            //    computerFire.GetComponent<ParticleSystem>().Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+            //}
+
+            planetXCard.GetComponent<Selectable>().value = ComputerScoreKeeper.scoreValue;
+
+            if ((ComputerScoreKeeper.scoreValue * 2) > PlayerScoreKeeper.scoreValue)
+            {
+                print("Computer has played a card that allows his score to surpass the player's.");
+                ComputerScoreKeeper.scoreValue *= 2;
+                AddMiddle(planetXCard);
+                removeCFieldCard(planetXCard);
+                yield return new WaitForSeconds(1f);
+                checkSelectableCards();
+            }
+            else if ((ComputerScoreKeeper.scoreValue * 2) < PlayerScoreKeeper.scoreValue)
+            {
+                print("Computer has played a card with insufficient value. Game won.");
+                ComputerScoreKeeper.scoreValue *= 2;
+                AddMiddle(planetXCard);
+                removeCFieldCard(planetXCard);
+                state = GameState.WON;
+                callMatchEnd();
+            }
+            else // computer has picked a card that equalizes their total with the player's total score
+            {
+                print("Computer has played a card that equalizes their total with the player's total score. Redrawing.");
+                ComputerScoreKeeper.scoreValue *= 2;
+                AddMiddle(planetXCard);
+                removeCFieldCard(planetXCard);
+                yield return new WaitForSeconds(1f); // wait for player to catch up on what's happening
+                RedrawCard();
+            }
+        }
     }
 
     public IEnumerator SunCard(GameObject sunCard)
@@ -875,7 +984,7 @@ public class Higher : MonoBehaviour
             float burnedCardZ = pMiddleCards[pMiddleCards.Count - 1].transform.position.z;
             iTween.MoveTo(reviveCard, new Vector3(burnedCardX, burnedCardY, burnedCardZ), 0.75f);
 
-            GameObject newPlayerSideWater = Instantiate(waterPrefab, new Vector3(burnedCardX, burnedCardY, -5), waterPrefab.transform.rotation);
+            GameObject newPlayerSideWater = Instantiate(waterPrefab, new Vector3(burnedCardX, burnedCardY, burnedCardZ - 1), waterPrefab.transform.rotation);
             yield return new WaitForSeconds(0.75f);
             newPlayerSideWater.GetComponent<ParticleSystem>().Stop(true, ParticleSystemStopBehavior.StopEmitting);
 
@@ -896,7 +1005,7 @@ public class Higher : MonoBehaviour
             float burnedCardZ = cMiddleCards[cMiddleCards.Count - 1].transform.position.z;
             iTween.MoveTo(reviveCard, new Vector3(burnedCardX, burnedCardY, burnedCardZ), 0.75f);
 
-            GameObject newComputerSideWater = Instantiate(waterPrefab, new Vector3(burnedCardX, burnedCardY, -5), waterPrefab.transform.rotation);
+            GameObject newComputerSideWater = Instantiate(waterPrefab, new Vector3(burnedCardX, burnedCardY, burnedCardZ - 1), waterPrefab.transform.rotation);
             yield return new WaitForSeconds(0.75f);
             newComputerSideWater.GetComponent<ParticleSystem>().Stop(true, ParticleSystemStopBehavior.StopEmitting);
 
