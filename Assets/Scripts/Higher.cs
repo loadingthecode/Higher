@@ -25,6 +25,7 @@ public class Higher : MonoBehaviour
 
     public GameObject firePrefab;
     public GameObject waterPrefab;
+    public GameObject wormHolePrefab;
 
     public UpdateSprite updateSprite;
     public SpriteRenderer prevSpriteRenderer;
@@ -215,9 +216,9 @@ public class Higher : MonoBehaviour
             newDeck.Add(types[2] + values[0]); // adding 3 wormholes (1) to the deck
         }
 
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 2; i++)
         {
-            newDeck.Add(types[3] + values[0]); // adding 3 planet x's (1) to the deck
+            newDeck.Add(types[3] + values[0]); // adding 2 planet x's (1) to the deck
         }
         return newDeck;
     }
@@ -303,7 +304,7 @@ public class Higher : MonoBehaviour
             yield return new WaitForSeconds(0.1f); // spawns cards one-by-one visually
         }
         // for decks
-        for (int i = 0; i < 25; i++)
+        for (int i = 0; i < 24; i++)
         {
             GameObject pNewCard;
             GameObject cNewCard;
@@ -635,7 +636,19 @@ public class Higher : MonoBehaviour
             // specific planetXCard value from the point total
             planetXCard.GetComponent<Selectable>().value = PlayerScoreKeeper.scoreValue;
 
-            if ((PlayerScoreKeeper.scoreValue * 2) > ComputerScoreKeeper.scoreValue)
+            // if the player plays a special card as their last card, they lose
+            if (pFieldCards.Count == 1)
+            {
+                print("Player has committed a foul. Game over.");
+                PlayerScoreKeeper.scoreValue *= 2;
+                AddMiddle(planetXCard);
+                removePFieldCard(planetXCard);
+                state = GameState.LOST;
+                MatchEndScreen.lossReason = LossReason.FOUL;
+                yield return new WaitForSeconds(1f);
+                callMatchEnd();
+            }
+            else if ((PlayerScoreKeeper.scoreValue * 2) > ComputerScoreKeeper.scoreValue)
             {
                 print("Player has played a planet X and surpassed computer's score.");
                 PlayerScoreKeeper.scoreValue *= 2;
@@ -677,7 +690,18 @@ public class Higher : MonoBehaviour
 
             planetXCard.GetComponent<Selectable>().value = ComputerScoreKeeper.scoreValue;
 
-            if ((ComputerScoreKeeper.scoreValue * 2) > PlayerScoreKeeper.scoreValue)
+            // if the computer plays a special card as their last card, they lose
+            if (cFieldCards.Count == 1)
+            {
+                print("Computer has committed a foul. Game over.");
+                ComputerScoreKeeper.scoreValue *= 2;
+                AddMiddle(planetXCard);
+                removeCFieldCard(planetXCard);
+                state = GameState.WON;
+                yield return new WaitForSeconds(1f);
+                callMatchEnd();
+            }
+            else if ((ComputerScoreKeeper.scoreValue * 2) > PlayerScoreKeeper.scoreValue)
             {
                 print("Computer has played a card that allows his score to surpass the player's.");
                 ComputerScoreKeeper.scoreValue *= 2;
@@ -820,6 +844,12 @@ public class Higher : MonoBehaviour
     {
         // responsible for movement of wormhole card towards the center
         iTween.MoveTo(wormHoleCard, new Vector3(0, 0, -10), 0.75f);
+
+        //GameObject wormHole = Instantiate(wormHolePrefab, new Vector3(0, 0, -1), Quaternion.identity);
+        //yield return new WaitForSeconds(0.01f);
+        //iTween.RotateFrom(wormHole, new Vector3(-200, -200, 0), 2f);
+        //yield return new WaitForSeconds(1f);
+        //Destroy(wormHole);
 
         FindObjectOfType<AudioManager>().Play("Wormhole");
         // switch the card positions
