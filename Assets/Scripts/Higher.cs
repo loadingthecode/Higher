@@ -27,6 +27,9 @@ public class Higher : MonoBehaviour
     public GameObject waterPrefab;
     public GameObject wormHolePrefab;
 
+    public PlayerScoreKeeper playerScoreKeeper;
+    public ComputerScoreKeeper computerScoreKeeper;
+
     public UpdateSprite updateSprite;
     public SpriteRenderer prevSpriteRenderer;
     public CardFlipper cardFlipper;
@@ -74,6 +77,8 @@ public class Higher : MonoBehaviour
         cFieldTransforms = new Transform[10];
         playerDeckIndicator = GetComponent<ParticleSystem>();
         computerDeckIndicator = GameObject.Find("ComputerDeckIndicator").GetComponent<ParticleSystem>();
+        playerScoreKeeper = FindObjectOfType<PlayerScoreKeeper>();
+        computerScoreKeeper = FindObjectOfType<ComputerScoreKeeper>();
         prevSpriteRenderer = GetComponent<SpriteRenderer>();
         computerInput = GetComponent<ComputerInput>();
         cardFlipper = GetComponent<CardFlipper>();
@@ -623,6 +628,7 @@ public class Higher : MonoBehaviour
 
     public IEnumerator PlanetXCard (GameObject planetXCard)
     {
+        FindObjectOfType<AudioManager>().Play("DoubleScore");
         if (state == GameState.MOVECHECKER)
         {
             // add card to pile
@@ -635,6 +641,7 @@ public class Higher : MonoBehaviour
             // this will make it so that if the card gets Sunned, it will subtract the
             // specific planetXCard value from the point total
             planetXCard.GetComponent<Selectable>().value = PlayerScoreKeeper.scoreValue;
+            playerScoreKeeper.callChangeColor();
 
             // if the player plays a special card as their last card, they lose
             if (pFieldCards.Count == 1)
@@ -689,6 +696,7 @@ public class Higher : MonoBehaviour
             //}
 
             planetXCard.GetComponent<Selectable>().value = ComputerScoreKeeper.scoreValue;
+            computerScoreKeeper.callChangeColor();
 
             // if the computer plays a special card as their last card, they lose
             if (cFieldCards.Count == 1)

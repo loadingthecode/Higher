@@ -936,6 +936,11 @@ MonoBehaviour:
     volume: 0.753
     pitch: 1
     source: {fileID: 0}
+  - name: DoubleScore
+    clip: {fileID: 8300000, guid: 09e9f2dc93760c34bb62d24608689851, type: 3}
+    volume: 0.753
+    pitch: 1
+    source: {fileID: 0}
 --- !u!4 &570898535
 Transform:
   m_ObjectHideFlags: 0
@@ -1967,6 +1972,8 @@ MonoBehaviour:
   firePrefab: {fileID: 873752000}
   waterPrefab: {fileID: 314668762}
   wormHolePrefab: {fileID: 1500180365}
+  playerScoreKeeper: {fileID: 0}
+  computerScoreKeeper: {fileID: 0}
   updateSprite: {fileID: 0}
   prevSpriteRenderer: {fileID: 0}
   cardFlipper: {fileID: 0}
